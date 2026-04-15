@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# sync-core.sh — mirror /Core/*.cs into the Unity and Godot distribution folders.
+# sync-core.sh — mirror /Core/**/*.cs into the Unity and Godot distribution folders.
 # Idempotent. Safe to run repeatedly. Exits non-zero on any error.
 set -euo pipefail
 
@@ -15,9 +15,10 @@ if [[ ! -d "$core_dir" ]]; then
     exit 1
 fi
 
-shopt -s nullglob
-sources=("$core_dir"/*.cs)
-shopt -u nullglob
+sources=()
+while IFS=  read -r -d $'\0'; do
+    sources+=("$REPLY")
+done < <(find "$core_dir" -type d \( -name 'bin' -o -name 'obj' \) -prune -o -type f -name '*.cs' -print0)
 
 if [[ ${#sources[@]} -eq 0 ]]; then
     echo "error: no .cs files found under $core_dir" >&2
@@ -26,13 +27,18 @@ fi
 
 mkdir -p "$unity_core_dir" "$godot_core_dir"
 
-# Purge previously synced .cs (and Godot .cs.uid) files. Preserve Unity .meta.
-find "$unity_core_dir" -maxdepth 1 -type f -name '*.cs' -delete
-find "$godot_core_dir" -maxdepth 1 -type f \( -name '*.cs' -o -name '*.cs.uid' \) -delete
+# Purge previously synced .cs files. Preserve Unity .meta and Godot .uid files.
+find "$unity_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
+find "$godot_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
 
 for src in "${sources[@]}"; do
-    cp -f "$src" "$unity_core_dir/"
-    cp -f "$src" "$godot_core_dir/"
+    rel_path="${src#$core_dir/}"
+    dest_u="$unity_core_dir/$rel_path"
+    dest_g="$godot_core_dir/$rel_path"
+    
+    mkdir -p "$(dirname "$dest_u")" "$(dirname "$dest_g")"
+    cp -f "$src" "$dest_u"
+    cp -f "$src" "$dest_g"
 done
 
 echo "synced ${#sources[@]} file(s) from Core/ -> Unity/Runtime/Core and Godot/addons/Unidote/Core"

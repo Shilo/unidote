@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Mirror /Core/*.cs into the Unity and Godot distribution folders.
+    Mirror /Core/**/*.cs into the Unity and Godot distribution folders.
 
 .DESCRIPTION
     Idempotent sync script. Run after editing anything under /Core so the
@@ -22,7 +22,9 @@ if (-not (Test-Path -LiteralPath $coreDir -PathType Container)) {
     throw "Core directory not found at $coreDir"
 }
 
-$sources = @(Get-ChildItem -LiteralPath $coreDir -Filter '*.cs' -File)
+$sources = @(Get-ChildItem -LiteralPath $coreDir -Filter '*.cs' -File -Recurse | Where-Object { 
+    $_.FullName -notmatch '[\\/]bin[\\/]' -and $_.FullName -notmatch '[\\/]obj[\\/]' 
+})
 if ($sources.Count -eq 0) {
     throw "No .cs files found under $coreDir"
 }
@@ -30,16 +32,25 @@ if ($sources.Count -eq 0) {
 New-Item -ItemType Directory -Force -Path $unityCoreDir, $godotCoreDir | Out-Null
 
 # Purge previously synced files. Preserve Unity .meta so GUIDs stay stable.
-Get-ChildItem -LiteralPath $unityCoreDir -Filter '*.cs' -File -ErrorAction SilentlyContinue |
+Get-ChildItem -LiteralPath $unityCoreDir -Filter '*.cs' -File -Recurse -ErrorAction SilentlyContinue |
     Remove-Item -Force
 
-Get-ChildItem -LiteralPath $godotCoreDir -File -ErrorAction SilentlyContinue |
-    Where-Object { $_.Name -like '*.cs' -or $_.Name -like '*.cs.uid' } |
+Get-ChildItem -LiteralPath $godotCoreDir -Filter '*.cs' -File -Recurse -ErrorAction SilentlyContinue |
     Remove-Item -Force
 
 foreach ($src in $sources) {
-    Copy-Item -LiteralPath $src.FullName -Destination $unityCoreDir -Force
-    Copy-Item -LiteralPath $src.FullName -Destination $godotCoreDir -Force
+    $relPath = $src.FullName.Substring($coreDir.Length + 1)
+    $destU = Join-Path $unityCoreDir $relPath
+    $destG = Join-Path $godotCoreDir $relPath
+    
+    $dirU = Split-Path $destU -Parent
+    $dirG = Split-Path $destG -Parent
+    
+    if (-not (Test-Path -LiteralPath $dirU)) { New-Item -ItemType Directory -Force -Path $dirU | Out-Null }
+    if (-not (Test-Path -LiteralPath $dirG)) { New-Item -ItemType Directory -Force -Path $dirG | Out-Null }
+    
+    Copy-Item -LiteralPath $src.FullName -Destination $destU -Force
+    Copy-Item -LiteralPath $src.FullName -Destination $destG -Force
 }
 
 Write-Host ("synced {0} file(s) from Core/ -> Unity/Runtime/Core and Godot/addons/Unidote/Core" -f $sources.Count)
