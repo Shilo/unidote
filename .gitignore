@@ -1,29 +1,37 @@
-# Copied Core files (CI manages these - .meta files are tracked for stable GUIDs)
-Godot/addons/unidote/Core/
+# --- Unidote Core mirrors (populated by scripts/sync-core; .meta kept for Unity GUID stability) ---
+Godot/addons/Unidote/Core/*
+!Godot/addons/Unidote/Core/.gitkeep
 Unity/Runtime/Core/*
+!Unity/Runtime/Core/.gitkeep
 !Unity/Runtime/Core/*.meta
 
-# Copied addon/package in sample projects (CI manages these)
-Samples/UnidoteGodotDemo/addons/unidote/
-Samples/UnidoteUnityDemo/Packages/com.shilo.unidote/
-.worktrees/
-
-# .NET
-.dotnet-cli/
-bin/
-obj/
+# --- .NET build artifacts ---
+**/bin/
+**/obj/
 *.user
 *.suo
 
-# IDE
+# --- Unity sample generated folders ---
+Samples/UnidoteUnityDemo/[Ll]ibrary/
+Samples/UnidoteUnityDemo/[Tt]emp/
+Samples/UnidoteUnityDemo/[Ll]ogs/
+Samples/UnidoteUnityDemo/[Uu]ser[Ss]ettings/
+Samples/UnidoteUnityDemo/[Bb]uild/
+Samples/UnidoteUnityDemo/Assembly-*.csproj
+Samples/UnidoteUnityDemo/*.csproj
+Samples/UnidoteUnityDemo/*.sln
+
+# --- Godot sample generated folders ---
+Samples/UnidoteGodotDemo/.godot/
+Samples/UnidoteGodotDemo/.import/
+Samples/UnidoteGodotDemo/.mono/
+
+# --- IDE ---
 .vs/
 .vscode/
 .idea/
+*.DotSettings.user
 
-# OS
+# --- OS ---
 .DS_Store
 Thumbs.db
-
-# Sample projects generated files
-*.import
-*.uid
