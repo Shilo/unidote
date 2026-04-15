@@ -20,14 +20,8 @@ Legend:
 
 ### 2. No mirror-freshness gate (sync drift detection)
 
-**Status:** Deferred — documented in [`docs/architecture.md`](docs/architecture.md#invariants-the-ci-should-enforce).
-**Reasoning:** The sync scripts are idempotent and correct; drift only becomes possible once someone edits the mirrored `.cs` files directly. An `if ! git diff --quiet` gate after `scripts/sync-core.sh` is ~5 lines of YAML, but again it protects nothing until the Core has logic.
-**Pickup hint:** Drop the snippet below into `.github/workflows/sync-check.yml` once Core has non-trivial files:
-
-```yaml
-- run: bash scripts/sync-core.sh
-- run: git diff --exit-code -- Unity/Runtime/Core Godot/addons/Unidote/Core
-```
+**Status:** Addressed.
+**Reasoning:** Implemented in iteration three. A GitHub Actions workflow (`.github/workflows/sync-check.yml`) runs `scripts/sync-core.sh` and executes `git diff --exit-code` on every push to main or PR to prevent drift between the source of truth and engine wrappers.
 
 ### 3. Version string repeated in four places
 
@@ -100,8 +94,12 @@ Legend:
 
 Tracked in commits `e051196` (sample consolidation + UPM metadata enrichment), `5e35ae9` (editorconfig + gitattributes + Directory.Build.props), and `53bd54c` (MkDocs Material site + GitHub Pages deploy). The previous review's two highest-impact findings — **sample drift risk** and **missing public-facing documentation** — were both addressed directly rather than deferred.
 
+## What changed between iteration two and iteration three
+
+Tracked in commit `57d8fc9`. We adopted deep recursion for sync scripts, added `.github/workflows/sync-check.yml` to satisfy Item 2 (drift detection), integrated file guardrails, and added `scripts/sync-godot-adapter-from-sample` (UID stripping methodology for community plugin reuse) derived from the PolyPet reference review.
+
 ## Open questions for future reviews
 
-- When Core gains non-trivial logic, do we flip items 1, 2, and 4 from *Deferred* to *Addressed* in a single hardening PR, or incrementally?
+- When Core gains non-trivial logic, do we flip items 1 and 4 from *Deferred* to *Addressed* in a single hardening PR, or incrementally?
 - Is a `release-please`-style changelog-automation worth the complexity for a 0.x scaffold? Current answer: no.
 - Should the Godot demo assert an expected log line in CI (via `godot --headless` + a grep on stdout)? Low cost, high leverage — candidate for the first CI workflow.

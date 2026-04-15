@@ -106,34 +106,19 @@ namespace Unidote.Godot
 #endif
 ```
 
-## UID stability
+## UID isolation
 
-Godot 4+ resolves script and scene references via **UIDs** stored in sidecar `.uid` files. Unidote ships stable UIDs so a fresh clone imports cleanly without regeneration:
+Godot 4+ resolves script and scene references via **UIDs** stored in sidecar `.uid` files. However, sharing `.uid` files in generic community plugins often leads to registry hash collisions if multiple downstream developers import the same assets. 
 
-| File                       | UID                 |
-| -------------------------- | ------------------- |
-| `UnidotePlugin.cs.uid`     | `uid://cunidoteplg01a` |
-| `UnidoteNode.cs.uid`       | `uid://cunidotenod01a` |
+Unidote deliberately **strips `uid://` strings** and excludes `.uid` metadata from its `/Godot/addons` distribution. This forces the Godot host engine to fallback to stable path-based resolution for plugin resources upon import, ensuring your repository functions as a collision-free template.
+
+When developing the engine-specific wrappers in the `Samples/UnidoteGodotDemo`, executing `scripts/sync-godot-adapter-from-sample.ps1` will automatically harvest the addon scripts back to the repository root while aggressively stripping any generated UID properties.
 
 ## Compiling the Core
 
-The Godot host project compiles `addons/Unidote/Core/*.cs` alongside its own code. That folder is populated by `scripts/sync-core.(sh|ps1)`.
+The Godot host project compiles `addons/Unidote/Core/*.cs` alongside its own code. That folder is populated from the central `/Core` via `scripts/sync-core.(sh|ps1)`.
 
-For sample / demo projects that do **not** copy the addon, reference `/Core` directly with `<Compile Include>`:
-
-```xml title="YourGodotProject.csproj"
-<Project Sdk="Godot.NET.Sdk/4.6.0">
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <EnableDynamicLoading>true</EnableDynamicLoading>
-    </PropertyGroup>
-    <ItemGroup>
-        <Compile Include="..\unidote\Core\*.cs" LinkBase="Core" />
-    </ItemGroup>
-</Project>
-```
-
-This is exactly what [`Samples/UnidoteGodotDemo/UnidoteGodotDemo.csproj`](https://github.com/Shilocity/unidote/blob/main/Samples/UnidoteGodotDemo/UnidoteGodotDemo.csproj) does.
+The `Samples/UnidoteGodotDemo` sample project inherently contains a physical copy of the addon locally to simulate true engine-level iteration. Changes to Godot-specific files within the Sample project must be synced back using `scripts/sync-godot-adapter-from-sample.ps1`.
 
 ## Distribution Channels
 

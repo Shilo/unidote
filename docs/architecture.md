@@ -66,12 +66,12 @@ flowchart TB
     C[Core.csproj] --> CDll[Unidote.Core.dll]
     U[Unity UPM package] -. compiled by Unity .-> UAsm[Shilo.Unidote.dll]
     GP[UnidoteGodotDemo.csproj] --> GDll[UnidoteGodotDemo.dll]
-    C -. "<Compile Include>" .-> GP
     U -. ships mirror of .-> C
     GAddon[Godot addon] -. ships mirror of .-> C
+    GAddon -. included in .-> GP
 ```
 
-One solution (`Unidote.sln`) covers the Core **and** the Godot demo. The Unity demo is built by Unity itself.
+One solution (`Unidote.sln`) covers the Core **and** the Godot demo. Both the Godot demo and Unity demo compile their respective physical engine package structures natively.
 
 ## Namespace map
 
