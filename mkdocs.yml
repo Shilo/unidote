@@ -1,0 +1,124 @@
+site_name: Unidote
+site_url: https://shilocity.github.io/unidote/
+site_description: Cure for cross-engine headaches. A minimal C# scaffold with an engine-agnostic core plus Unity and Godot wrappers.
+site_author: Shilo
+
+repo_name: Shilocity/unidote
+repo_url: https://github.com/Shilocity/unidote
+edit_uri: edit/main/docs/
+
+copyright: Copyright &copy; 2026 Shilo — MIT Licensed
+
+theme:
+  name: material
+  icon:
+    logo: material/medical-bag
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+  font:
+    text: Inter
+    code: JetBrains Mono
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: red
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: red
+      toggle:
+        icon: material/weather-night
+        name: Switch to system preference
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+    - content.action.view
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      permalink_title: Anchor link
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.snippets:
+      base_path:
+        - .
+        - docs
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Home: index.md
+  - Install: install.md
+  - Quick Start: quick-start.md
+  - Engines:
+      - Unity: engines/unity.md
+      - Godot: engines/godot.md
+      - .NET: engines/dotnet.md
+  - Architecture: architecture.md
+  - Changelog: changelog.md
+  - License: license.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Shilocity/unidote
+      name: Unidote on GitHub
+  generator: false
+
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+  links:
+    absolute_links: warn
+    unrecognized_links: warn
