@@ -1,0 +1,32 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{md,yml,yaml,json,asmdef,meta,cfg,godot,tscn,tres}]
+indent_size = 2
+
+[*.ps1]
+end_of_line = crlf
+
+[*.{sh,bash}]
+end_of_line = lf
+
+[*.{cs,csproj,props,targets}]
+# C# formatting
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_style_namespace_declarations = file_scoped:suggestion
+csharp_prefer_braces = true:warning
+csharp_preferred_modifier_order = public, private, protected, internal, static, extern, new, virtual, abstract, sealed, override, readonly, unsafe, volatile, async:suggestion
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:warning
+dotnet_sort_system_directives_first = true

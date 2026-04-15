@@ -1,0 +1,12 @@
+<Project>
+    <!-- Shared compiler settings for every .NET project in the Unidote repository. -->
+    <PropertyGroup>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <AnalysisLevel>latest-recommended</AnalysisLevel>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <Deterministic>true</Deterministic>
+        <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    </PropertyGroup>
+</Project>

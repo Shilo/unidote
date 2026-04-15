@@ -3,8 +3,6 @@
         <TargetFramework>net8.0</TargetFramework>
         <EnableDynamicLoading>true</EnableDynamicLoading>
         <RootNamespace>UnidoteGodotDemo</RootNamespace>
-        <Nullable>enable</Nullable>
-        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <!-- Compile the engine-agnostic Core directly from the repository source of truth. -->
