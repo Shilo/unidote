@@ -1,6 +1,6 @@
 # Unidote — Unity
 
-Unity Package Manager distribution of the Unidote engine-agnostic core.
+Unity Package Manager distribution of the Unidote engine-agnostic core. Target: Unity **6.4+**.
 
 ## Install
 

@@ -1,6 +1,6 @@
 # Unidote — Godot Addon
 
-Drop-in Godot 4.6 C# addon for the Unidote engine-agnostic core.
+Drop-in Godot **4.6+** C# addon for the Unidote engine-agnostic core.
 
 ## Install
 
