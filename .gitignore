@@ -1,0 +1,29 @@
+# Copied Core files (CI manages these - .meta files are tracked for stable GUIDs)
+Godot/addons/unidote/Core/
+Unity/Runtime/Core/*
+!Unity/Runtime/Core/*.meta
+
+# Copied addon/package in sample projects (CI manages these)
+Samples/UnidoteGodotDemo/addons/unidote/
+Samples/UnidoteUnityDemo/Packages/com.shilo.unidote/
+.worktrees/
+
+# .NET
+.dotnet-cli/
+bin/
+obj/
+*.user
+*.suo
+
+# IDE
+.vs/
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Sample projects generated files
+*.import
+*.uid
