@@ -1,0 +1,23 @@
+name: sync-check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  check-drift:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run Core Sync
+      run: bash scripts/sync-core.sh
+      
+    - name: Assert Zero Drift
+      run: |
+        if ! git diff --exit-code -- Unity/Runtime/Core Godot/addons/Unidote/Core; then
+          echo "::error::Core mirrors are out of sync. Did you forget to run scripts/sync-core.sh?"
+          exit 1
+        fi

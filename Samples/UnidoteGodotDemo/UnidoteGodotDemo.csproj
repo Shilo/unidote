@@ -5,8 +5,5 @@
         <RootNamespace>UnidoteGodotDemo</RootNamespace>
     </PropertyGroup>
 
-    <!-- Compile the engine-agnostic Core directly from the repository source of truth. -->
-    <ItemGroup>
-        <Compile Include="..\..\Core\*.cs" LinkBase="Core" />
-    </ItemGroup>
+
 </Project>

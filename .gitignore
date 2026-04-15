@@ -1,7 +1,6 @@
-# --- Unidote Core mirrors (populated by scripts/sync-core; .meta and .uid kept for GUID stability) ---
+# --- Unidote Core mirrors (populated by scripts/sync-core; .meta kept for GUID stability) ---
 Godot/addons/Unidote/Core/*
 !Godot/addons/Unidote/Core/.gitkeep
-!Godot/addons/Unidote/Core/**/*.uid
 Unity/Runtime/Core/*
 !Unity/Runtime/Core/.gitkeep
 !Unity/Runtime/Core/**/*.meta
