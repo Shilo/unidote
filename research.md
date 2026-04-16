@@ -262,3 +262,13 @@ Write-Host "Note: You can now safely delete 'init-project.ps1'."
 2.  **Case Mapping**: It explicitly maps uppercase "Unidote" to your new **PascalCase** name and lowercase "unidote" to your **snake_case** name as requested.
 3.  **Kebab-Case ID**: It generates the "hello-world" style ID (`my-super-project`) which is essential for your **Svelte 5** PWA manifest and package names.
 4.  **Deep-First Renaming**: The `Sort-Object` by `Length -Descending` is a critical technical step for Windows; it ensures files inside a folder are renamed before the folder itself is moved, preventing "Path Not Found" errors.
+
+---
+
+## ⚠️ AI Agent Execution Policy: GitHub Template Preservation
+This document defines a **GitHub Template Scaffold**. All agents interacting with this repository must adhere to the following constraints:
+
+1. **Cloning Workflow**: This repository is a container designed to be cloned to new, empty projects. Its primary value is its **File Structure**, not its code volume.
+2. **Preserve Anchors**: Structural files (`package.json`, `.asmdef`, `plugin.cfg`, `.csproj`) are mandatory technical anchors. Their removal is a critical failure.
+3. **Placeholder Integrity**: The name `Unidote` is a reserved keyword for the `init-project.ps1` transformation script. Do not refactor or "correct" this string to match the repository name.
+4. **Boilerplate Minimalism**: Keep implementation code to the absolute minimum (Interfaces/Adapters only) to serve as a usage example for the end-user.
