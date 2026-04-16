@@ -21,7 +21,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Shilocity/unidote.git",
-    "directory": "Unity"
+    "directory": "src/Unidote.Unity"
   },
   "samples": [
     {

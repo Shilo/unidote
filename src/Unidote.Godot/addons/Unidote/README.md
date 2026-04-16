@@ -13,13 +13,17 @@ Your project must be a C# Godot project (`.csproj` present). The addon compiles 
 ```csharp
 using Godot;
 using Unidote;
+using Unidote.Simulation;
 
 public partial class Main : Node
 {
+    private readonly SimulationTicker ticker = new();
+
     public override void _Ready() => GD.Print(UnidoteCore.Greet("Godot"));
+    public override void _Process(double delta) => ticker.Tick((float)delta);
 }
 ```
 
-Or add a `UnidoteNode` to a scene and set its `Subject` property in the Inspector.
+Or add a `UnidoteNode` to a scene and set its `Subject` property in the Inspector — it drives the Core ticker from `_Process` for you.
 
-The `Core/` folder is populated from the repository's `/Core` source of truth via `scripts/sync-core.(ps1|sh)`.
+The `Core/` folder is populated from `src/Unidote.Core` via `scripts/sync-core.(ps1|sh)`.

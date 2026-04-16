@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "com.shilo.unidote": "file:../../Unity"
+    "com.shilo.unidote": "file:../../../src/Unidote.Unity"
   }
 }

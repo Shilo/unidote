@@ -10,14 +10,32 @@ jobs:
   check-drift:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Run Core Sync
-      run: bash scripts/sync-core.sh
-      
-    - name: Assert Zero Drift
-      run: |
-        if ! git diff --exit-code -- Unity/Runtime/Core Godot/addons/Unidote/Core; then
-          echo "::error::Core mirrors are out of sync. Did you forget to run scripts/sync-core.sh?"
-          exit 1
-        fi
+      - uses: actions/checkout@v4
+
+      - name: Run Core sync
+        run: bash scripts/sync-core.sh
+
+      - name: Assert zero drift in tracked mirrors
+        run: |
+          if ! git diff --exit-code -- \
+                src/Unidote.Unity/Runtime/Core \
+                src/Unidote.Godot/addons/Unidote/Core \
+                Samples/UnidoteGodotDemo/addons/Unidote/Core; then
+            echo "::error::Core mirrors are out of sync. Run scripts/sync-core.sh and commit." >&2
+            exit 1
+          fi
+
+      - name: Assert UTF-8 integrity (no cp1252 mojibake)
+        run: |
+          if grep -rlF --binary-files=text $'\xc3\xa2\xe2\x82\xac' \
+                 src Samples/UnidoteGodotDemo/addons 2>/dev/null; then
+            echo "::error::Mojibake detected (cp1252→UTF-8 double-encoding). Re-save source as UTF-8 (no BOM)." >&2
+            exit 1
+          fi
+
+      - name: Assert no engine bleed in Core
+        run: |
+          if grep -rE '\b(UnityEngine|UnityEditor|Godot|GodotSharp)\b' src/Unidote.Core 2>/dev/null; then
+            echo "::error::Engine-specific type leaked into Unidote.Core. Move to adapter." >&2
+            exit 1
+          fi

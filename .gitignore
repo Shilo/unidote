@@ -1,9 +1,9 @@
 # --- Unidote Core mirrors (populated by scripts/sync-core; .meta kept for GUID stability) ---
-Godot/addons/Unidote/Core/*
-!Godot/addons/Unidote/Core/.gitkeep
-Unity/Runtime/Core/*
-!Unity/Runtime/Core/.gitkeep
-!Unity/Runtime/Core/**/*.meta
+src/Unidote.Godot/addons/Unidote/Core/*
+!src/Unidote.Godot/addons/Unidote/Core/.gitkeep
+src/Unidote.Unity/Runtime/Core/*
+!src/Unidote.Unity/Runtime/Core/.gitkeep
+!src/Unidote.Unity/Runtime/Core/**/*.meta
 
 # --- .NET build artifacts ---
 **/bin/
