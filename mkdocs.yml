@@ -20,17 +20,23 @@ theme:
     text: Inter
     code: JetBrains Mono
   palette:
-    - scheme: slate
-      primary: teal
-      accent: red
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
       toggle:
-        icon: material/weather-night
+        icon: material/brightness-4
         name: Switch to light mode
-    - scheme: default
-      primary: teal
-      accent: red
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
       toggle:
-        icon: material/weather-sunny
+        icon: material/brightness-7
+        name: Switch to system preference
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
         name: Switch to dark mode
   features:
     - navigation.instant
@@ -38,6 +44,8 @@ theme:
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
+    - navigation.indexes
+    - navigation.path
     - navigation.top
     - navigation.tracking
     - navigation.footer
