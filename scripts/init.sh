@@ -83,7 +83,7 @@ RENAME_CHANGES=0
 
 # --- 1. REPLACE CONTENT ---
 echo "Updating file contents..."
-find "${EXISTING_TARGETS[@]}" -type f -not -path '*/\.git/*' | while read -r file; do
+while read -r file; do
     if grep -qEi "${OLD_PASCAL}|${OLD_SNAKE}" "$file"; then
         echo "  [Content] $file"
         tmp_file=$(mktemp)
@@ -109,12 +109,12 @@ find "${EXISTING_TARGETS[@]}" -type f -not -path '*/\.git/*' | while read -r fil
         cat "$tmp_file" > "$file"
         rm "$tmp_file"
     fi
-done
+done < <(find "${EXISTING_TARGETS[@]}" -type f -not -path '*/\.git/*')
 
 # --- 2. RENAME FILES AND FOLDERS ---
 echo -e "\nRenaming files and folders..."
 # Use -depth for deepest-first renaming to ensure parents aren't moved before children
-find "${EXISTING_TARGETS[@]}" -depth -not -path '*/\.git/*' | while read -r item; do
+while read -r item; do
     dirname=$(dirname "$item")
     basename=$(basename "$item")
     new_basename="$basename"
@@ -137,11 +137,11 @@ find "${EXISTING_TARGETS[@]}" -depth -not -path '*/\.git/*' | while read -r item
         echo -e "  \033[1;32m[Renamed] $item -> $new_basename\033[0m"
         mv "$item" "$dirname/$new_basename"
     fi
-done
+done < <(find "${EXISTING_TARGETS[@]}" -depth -not -path '*/\.git/*')
 
 echo -e "\nSuccess! Project rebranded as $pascal_name."
 echo "-------------------------------------------"
 echo "Lines updated:      $CONTENT_CHANGES"
-echo "Items renamed:      $RENAME_CHANGES"
+echo "Files renamed:      $RENAME_CHANGES"
 echo "-------------------------------------------"
 echo "Note: You can now safely delete 'init.sh' and 'init.ps1'."
