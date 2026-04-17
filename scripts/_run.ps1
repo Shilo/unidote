@@ -29,14 +29,24 @@ if (-not (Test-Path -LiteralPath $bashScript -PathType Leaf)) {
 }
 
 try {
-    if (-not (Get-Command bash -ErrorAction SilentlyContinue)) {
-        Write-Error "Bash is required. Please run via Git Bash, WSL, or ensure bash is in your PATH."
-        exit 1
+    $gitBashCandidates = @(
+        "$env:ProgramFiles\Git\bin\bash.exe",
+        "$env:ProgramFiles\Git\usr\bin\bash.exe",
+        "${env:ProgramFiles(x86)}\Git\bin\bash.exe"
+    )
+    $bashExe = $gitBashCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+
+    if (-not $bashExe) {
+        if (-not (Get-Command bash -ErrorAction SilentlyContinue)) {
+            Write-Error "Bash is required. Please run via Git Bash, WSL, or ensure bash is in your PATH."
+            exit 1
+        }
+        $bashExe = 'bash'
     }
 
     Push-Location $scriptDir
     try {
-        & bash "./$Script"
+        & $bashExe "./$Script"
     } finally {
         Pop-Location
     }
