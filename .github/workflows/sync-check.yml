@@ -1,27 +1,34 @@
-name: sync-check
+name: sync-core
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [main]
+    paths:
+      - "src/Unidote.Core/**"
+      - "scripts/sync-core.*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: unidote-sync-core-main
+  cancel-in-progress: false
 
 jobs:
-  check-drift:
+  sync:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: main
 
-      - name: Run Core sync
-        run: bash scripts/sync-core.sh
-
-      - name: Assert zero drift in tracked mirrors
+      - name: Assert no engine bleed in Core
         run: |
-          if ! git diff --exit-code -- \
-                src/Unidote.Unity/Runtime/Core \
-                src/Unidote.Godot/addons/Unidote/Core \
-                samples/UnidoteGodotDemo/addons/Unidote/Core; then
-            echo "::error::Core mirrors are out of sync. Run scripts/sync-core.sh and commit." >&2
+          if grep -rE '\b(UnityEngine|UnityEditor|Godot|GodotSharp)\b' src/Unidote.Core 2>/dev/null; then
+            echo "::error::Engine-specific type leaked into Unidote.Core. Move to adapter." >&2
             exit 1
           fi
 
@@ -33,9 +40,32 @@ jobs:
             exit 1
           fi
 
-      - name: Assert no engine bleed in Core
+      - name: Sync and push if changed
         run: |
-          if grep -rE '\b(UnityEngine|UnityEditor|Godot|GodotSharp)\b' src/Unidote.Core 2>/dev/null; then
-            echo "::error::Engine-specific type leaked into Unidote.Core. Move to adapter." >&2
-            exit 1
-          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git checkout main
+            git reset --hard origin/main
+
+            bash ./scripts/sync-core.sh
+
+            git add -f \
+              src/Unidote.Unity/Runtime/Core \
+              src/Unidote.Godot/addons/Unidote/Core \
+              samples/UnidoteGodotDemo/addons/Unidote/Core
+
+            if git diff --cached --quiet; then
+              echo "Mirrors already up to date — nothing to commit."
+              exit 0
+            fi
+
+            git commit -m "chore(core): sync Core to engine adapters and sample"
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+          done
+
+          echo "::error::Failed to push synced Core changes after 3 attempts." >&2
+          exit 1
