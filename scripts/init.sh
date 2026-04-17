@@ -4,12 +4,12 @@
 # Rebrand this scaffold for a fresh fork.
 #
 # Reads the current project identity from the root .sln file, prompts for a
-# new project name, derives PascalCase, snake_case, and kebab-case identifiers,
-# then rewrites every matching text occurrence and renames every matching file
+# new project name, derives PascalCase and kebab-case identifiers, then
+# rewrites every matching text occurrence and renames every matching file
 # or folder across the whitelisted paths.
 #
-# Case-sensitive substitutions ensure the PascalCase sweep does
-# not eat lowercase tokens before the snake/kebab sweeps run.
+# PascalCase replacement runs first so the lowercase kebab sweep does
+# not collide with already-replaced tokens.
 
 # --- PREPARATION ---
 # Ensure we are running from the project root (one level up from /scripts)
@@ -25,11 +25,8 @@ if [[ -z "$SLN_PATH" ]]; then
 fi
 
 OLD_PASCAL=$(basename "$SLN_PATH" .sln)
-# Derive snake_case and kebab-case from Pascal (assuming PascalCase input)
-OLD_SNAKE=$(echo "$OLD_PASCAL" | sed 's/\([a-z0-9]\)\([A-Z]\)/\1_\2/g' | tr '[:upper:]' '[:lower:]')
+# Derive kebab-case from Pascal for lowercase token replacement
 OLD_KEBAB=$(echo "$OLD_PASCAL" | sed 's/\([a-z0-9]\)\([A-Z]\)/\1-\2/g' | tr '[:upper:]' '[:lower:]')
-# Handle the "id" suffix used in kebab placeholders like "<project>-id"
-OLD_ID_PLACEHOLDER="${OLD_KEBAB}-id"
 
 echo -e "\nRebranding Workspace"
 echo "Current Identity: $OLD_PASCAL"
@@ -47,17 +44,13 @@ fi
 # Generate PascalCase: "MyProject"
 pascal_name=$(echo "$trimmed" | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))} 1' | tr -d ' ')
 
-# snake_case: "my_project"
-snake_name=$(echo "$trimmed" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '_')
-
-# kebab-case: "my-project"
+# kebab-case: "my-project" — used for URL slugs, package IDs, concurrency groups
 kebab_id=$(echo "$trimmed" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '-')
 
 echo -e "\nInitializing Rebrand..."
 echo "-------------------------------------------"
-echo "New Name (Pascal): $pascal_name"
-echo "New ID (Kebab):    $kebab_id"
-echo "New Name (Snake):  $snake_name"
+echo "New Name (PascalCase): $pascal_name"
+echo "New ID (kebab-case):    $kebab_id"
 echo "-------------------------------------------"
 echo
 
@@ -87,14 +80,14 @@ RENAME_CHANGES=0
 # --- 1. REPLACE CONTENT ---
 echo "Updating file contents..."
 while read -r file; do
-    if grep -qEi "${OLD_PASCAL}|${OLD_SNAKE}" "$file"; then
+    if grep -qE "${OLD_PASCAL}|${OLD_KEBAB}" "$file"; then
         echo "  [Content] $file"
         tmp_file=$(mktemp)
-        
-        # Order matters: replace specific "id" placeholder first, then general names
-        sed -e "s/${OLD_ID_PLACEHOLDER}/${kebab_id}/g" \
-            -e "s/${OLD_PASCAL}/${pascal_name}/g" \
-            -e "s/${OLD_SNAKE}/${snake_name}/g" \
+
+        # Two passes: PascalCase first, then all remaining lowercase → kebab.
+        # Every lowercase occurrence in this C# scaffold is a URL slug,
+        # package id, or concurrency group — all kebab context.
+        sed -e "s/${OLD_PASCAL}/${pascal_name}/g" \
             -e "s/${OLD_KEBAB}/${kebab_id}/g" "$file" > "$tmp_file"
         
         # Count lines changed (number of removals in diff)
@@ -125,16 +118,10 @@ while read -r item; do
     basename=$(basename "$item")
     new_basename="$basename"
     
-    if echo "$new_basename" | grep -qi "${OLD_ID_PLACEHOLDER}"; then
-        new_basename=$(echo "$new_basename" | sed "s/${OLD_ID_PLACEHOLDER}/${kebab_id}/g")
-    fi
-    if echo "$new_basename" | grep -qi "${OLD_PASCAL}"; then
+    if echo "$new_basename" | grep -q "${OLD_PASCAL}"; then
         new_basename=$(echo "$new_basename" | sed "s/${OLD_PASCAL}/${pascal_name}/g")
     fi
-    if echo "$new_basename" | grep -qi "${OLD_SNAKE}"; then
-        new_basename=$(echo "$new_basename" | sed "s/${OLD_SNAKE}/${snake_name}/g")
-    fi
-    if echo "$new_basename" | grep -qi "${OLD_KEBAB}"; then
+    if echo "$new_basename" | grep -q "${OLD_KEBAB}"; then
         new_basename=$(echo "$new_basename" | sed "s/${OLD_KEBAB}/${kebab_id}/g")
     fi
     
