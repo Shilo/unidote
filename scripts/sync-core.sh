@@ -37,6 +37,14 @@ find "$unity_sample_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
 
 header=$'// AUTO-GENERATED. DO NOT EDIT. Edit source in src/Unidote.Core instead.\n'
 
+# Dir-level marker visible in file explorers / Solution Explorer. Written on
+# every sync so removing it out-of-band is self-healing.
+readonly_marker=$'# DO NOT EDIT\n\nEvery file in this directory is an auto-generated mirror of `src/Unidote.Core/`.\nIt is overwritten on every run of `scripts/sync-core.*` and by the `sync-core` GitHub Actions workflow on every push to `main`.\n\nTo change Core logic, edit `src/Unidote.Core/**/*.cs` and re-run the sync.\nEdits made directly in this folder WILL BE LOST.\n'
+
+for marker_dir in "$unity_core_dir" "$godot_core_dir" "$godot_sample_core_dir" "$unity_sample_core_dir"; do
+    printf '%s' "$readonly_marker" > "$marker_dir/DO_NOT_EDIT.md"
+done
+
 for src in "${sources[@]}"; do
     rel_path="${src#$core_dir/}"
     dest_u="$unity_core_dir/$rel_path"

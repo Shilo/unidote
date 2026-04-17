@@ -1,5 +1,14 @@
 * text=auto eol=lf
 
+# --- Auto-generated mirrors of src/Unidote.Core ---
+# Marks these paths as generated so GitHub collapses them in PR diffs and
+# excludes them from language statistics. Edits belong in src/Unidote.Core
+# only.
+src/Unidote.Unity/Runtime/Core/**                    linguist-generated=true
+src/Unidote.Godot/addons/Unidote/Core/**             linguist-generated=true
+samples/UnidoteUnityDemo/Packages/com.shilo.unidote/Runtime/Core/**  linguist-generated=true
+samples/UnidoteGodotDemo/addons/Unidote/Core/**      linguist-generated=true
+
 # Shell scripts must stay LF — breaks on Windows CRLF otherwise.
 *.sh            text eol=lf
 *.bash          text eol=lf

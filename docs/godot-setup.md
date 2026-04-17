@@ -32,6 +32,9 @@ scripts/sync-core.ps1         # Windows PowerShell
 !!! warning "Do not edit addons/Unidote/Core/ by hand"
 Files there are overwritten on every sync. Edit `src/Unidote.Core/` and re-run the script.
 
+!!! tip "Iterating inside the Godot editor"
+    When developing the addon through the Godot editor (scene edits, `[Tool]` plugin scripts, import settings), edits land in `samples/UnidoteGodotDemo/addons/Unidote/`. Run `scripts/sync-godot-adapter-from-sample.sh` (or `.ps1`) to pull them back into `src/Unidote.Godot/addons/Unidote/` before committing. See [Development Workflow](development-workflow.md).
+
 ## Installing the addon into a Godot project
 
 ### Manual copy

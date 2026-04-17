@@ -101,5 +101,6 @@ Re-run any time you add or edit a file in `src/Unidote.Core`.
 
 ## Where to go next
 
+- [Development Workflow](development-workflow.md) — how edits flow between `src/` and `samples/` (forward and reverse sync).
 - [Unity Setup](unity-setup.md) — asmdef, UPM layout, distribution.
 - [Godot Setup](godot-setup.md) — plugin.cfg, addon layout, editor registration.

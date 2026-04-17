@@ -58,5 +58,6 @@ Edit Core. Run sync. Both engine distributions pick up the change.
 ## Where to go next
 
 1. [Quick Start](quick-start.md) — clone, rebrand, add logic, mirror.
-2. [Unity Setup](unity-setup.md) — wire the UPM package into a Unity project.
-3. [Godot Setup](godot-setup.md) — register the addon in a Godot project.
+2. [Development Workflow](development-workflow.md) — forward and reverse sync between `src/` and `samples/` while developing.
+3. [Unity Setup](unity-setup.md) — wire the UPM package into a Unity project.
+4. [Godot Setup](godot-setup.md) — register the addon in a Godot project.
