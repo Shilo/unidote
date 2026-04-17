@@ -1,6 +1,8 @@
 <Project>
     <!-- Shared compiler settings for every .NET project in the Unidote repository. -->
     <PropertyGroup>
+        <!-- Central version — keep in sync with package.json + plugin.cfg. -->
+        <Version>0.1.0</Version>
         <LangVersion>12.0</LangVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>

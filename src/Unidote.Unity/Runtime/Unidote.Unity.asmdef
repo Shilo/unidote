@@ -1,6 +1,6 @@
 {
-    "name": "Shilo.Unidote",
-    "rootNamespace": "Unidote",
+    "name": "Shilo.Unidote.Unity",
+    "rootNamespace": "Unidote.Unity",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

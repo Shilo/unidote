@@ -1,10 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net8.0;netstandard2.1</TargetFrameworks>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <RootNamespace>Unidote</RootNamespace>
         <AssemblyName>Unidote.Core</AssemblyName>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <!-- Missing-XML-doc warning muted: Core is fully documented but analyzers may flag compiler-generated members. -->
-        <NoWarn>$(NoWarn);CS1591</NoWarn>
     </PropertyGroup>
 </Project>
