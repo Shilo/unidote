@@ -1,0 +1,53 @@
+name: sync-unity-adapter
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/Unidote.Unity/**"
+      - "scripts/sync-unity-adapter.*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: unidote-sync-unity-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Sync and push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git checkout main
+            git reset --hard origin/main
+
+            bash ./scripts/sync-unity-adapter.sh
+
+            git add -f samples/UnidoteUnityDemo/Packages/com.shilo.unidote
+
+            if git diff --cached --quiet; then
+              echo "Unity sample already up to date — nothing to commit."
+              exit 0
+            fi
+
+            git commit -m "chore: sync Unity adapter to sample project"
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+          done
+
+          echo "::error::Failed to push synced Unity adapter changes after 3 attempts." >&2
+          exit 1

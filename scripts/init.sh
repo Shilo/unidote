@@ -54,7 +54,7 @@ echo "New ID (kebab-case):    $kebab_id"
 echo "-------------------------------------------"
 echo
 
-WHITELIST=("src" "tests" "samples" "scripts" ".github" "docs" \
+WHITELIST=("src" "samples" "scripts" ".github" "docs" \
            "README.md" "mkdocs.yml" "Directory.Build.props" "research.md" \
            ".gitignore" \
            "$(basename "$SLN_PATH")")
@@ -68,7 +68,7 @@ for item in "${WHITELIST[@]}"; do
 done
 
 if [[ ${#EXISTING_TARGETS[@]} -eq 0 ]]; then
-    echo "Error: No target directories (src/, tests/, samples/) or .sln found." >&2
+    echo "Error: No target directories (src/, samples/) or .sln found." >&2
     exit 1
 fi
 

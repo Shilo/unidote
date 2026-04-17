@@ -7,8 +7,6 @@ Wire `src/Unidote.Unity` into a Unity **6.4+** project as a UPM package.
 ```
 src/Unidote.Unity/
 ├── package.json                 # UPM manifest (id, version, Unity min version)
-├── CHANGELOG.md
-├── LICENSE.md
 ├── README.md                    # Shown in the Package Manager pane
 ├── Runtime/
 │   ├── Unidote.Unity.asmdef     # → Shilo.Unidote.dll
@@ -78,8 +76,7 @@ Edits to the adapter show up in the Unity project on the next domain reload.
 Before cutting a release:
 
 1. Bump `version` in `src/Unidote.Unity/package.json`.
-2. Add an entry to `src/Unidote.Unity/CHANGELOG.md`.
-3. Commit and tag (`vX.Y.Z`).
+2. Commit and tag (`vX.Y.Z`).
 
 Downstream consumers pin the tag:
 

@@ -54,7 +54,8 @@ jobs:
             git add -f \
               src/Unidote.Unity/Runtime/Core \
               src/Unidote.Godot/addons/Unidote/Core \
-              samples/UnidoteGodotDemo/addons/Unidote/Core
+              samples/UnidoteGodotDemo/addons/Unidote/Core \
+              samples/UnidoteUnityDemo/Packages/com.shilo.unidote/Runtime/Core
 
             if git diff --cached --quiet; then
               echo "Mirrors already up to date — nothing to commit."
