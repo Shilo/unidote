@@ -27,6 +27,7 @@ samples/UnidoteUnityDemo/*.sln
 samples/UnidoteGodotDemo/.godot/
 samples/UnidoteGodotDemo/.import/
 samples/UnidoteGodotDemo/.mono/
+samples/UnidoteGodotDemo/android/
 
 # --- IDE ---
 .vs/
