@@ -30,7 +30,7 @@ scripts/sync-core.ps1         # Windows PowerShell
 ```
 
 !!! warning "Do not edit addons/Unidote/Core/ by hand"
-    Files there are overwritten on every sync. Edit `src/Unidote.Core/` and re-run the script.
+Files there are overwritten on every sync. Edit `src/Unidote.Core/` and re-run the script.
 
 ## Installing the addon into a Godot project
 
@@ -58,10 +58,10 @@ ln -s ../vendor/unidote/src/Unidote.Godot/addons/Unidote addons/Unidote
 [plugin]
 
 name="Unidote"
-description="Engine-agnostic C# core with a Godot adapter."
 author="Shilo"
 version="0.1.0"
-script="UnidotePlugin.cs"
+description=""
+script=""
 ```
 
 Bump `version` in lockstep with `package.json` and `Directory.Build.props` when releasing.

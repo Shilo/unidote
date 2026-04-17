@@ -45,7 +45,3 @@ Full walkthrough: <https://shilo.github.io/unidote/quick-start/>.
 - **`System.Numerics`** for Core math — adapters pay the conversion tax at the engine boundary.
 - **Zero bloat.** No demo gameplay, no utility classes, no runtime helpers. Just the scaffold.
 - **Warnings are errors.** `Directory.Build.props` enables `TreatWarningsAsErrors` and the latest analyzer set.
-
-## License
-
-MIT. See [LICENSE](LICENSE).
