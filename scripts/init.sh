@@ -21,6 +21,39 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$ROOT_DIR"
 
+# --- IDENTIFIER HELPERS ---
+
+titlecase_words() {
+    # Uppercase first letter of each whitespace-separated word, lowercase the rest.
+    awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))} 1'
+}
+
+# PascalCase a raw input.
+# Multi-word input → TitleCase with spaces removed.
+# Single-token input → preserved verbatim so the user can pass PascalCase or
+# camelCase ("MyProject", "shiloDev") without flattening to "Myproject".
+pascal_case() {
+    local raw="$1"
+    if [[ "$raw" == *[[:space:]]* ]]; then
+        echo "$raw" | titlecase_words | tr -d ' '
+    else
+        echo "$raw"
+    fi
+}
+
+# Kebab-case a raw input.
+# Multi-word input → lowercase + spaces → dashes.
+# Single-token input → insert dash between lowercase/digit and uppercase
+# so "MyProject" becomes "my-project" (camel → kebab).
+kebab_case() {
+    local raw="$1"
+    if [[ "$raw" == *[[:space:]]* ]]; then
+        echo "$raw" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '-'
+    else
+        echo "$raw" | sed 's/\([a-z0-9]\)\([A-Z]\)/\1-\2/g' | tr '[:upper:]' '[:lower:]'
+    fi
+}
+
 # --- DETECT CURRENT IDENTITY ---
 
 # Current project name comes from the root .slnx (or .sln) basename. If no
@@ -35,7 +68,7 @@ if [[ -n "$SLN_PATH" ]]; then
 else
     OLD_PROJECT_PASCAL="$PROJECT_FALLBACK"
 fi
-OLD_PROJECT_KEBAB=$(echo "$OLD_PROJECT_PASCAL" | sed 's/\([a-z0-9]\)\([A-Z]\)/\1-\2/g' | tr '[:upper:]' '[:lower:]')
+OLD_PROJECT_KEBAB=$(kebab_case "$OLD_PROJECT_PASCAL")
 
 # Current author comes from the sample Unity package.json → author.name.
 # That file carries the unmodified template author. If missing (e.g. after
@@ -44,29 +77,27 @@ OLD_PROJECT_KEBAB=$(echo "$OLD_PROJECT_PASCAL" | sed 's/\([a-z0-9]\)\([A-Z]\)/\1
 AUTHOR_FALLBACK="Shilo"
 SAMPLE_PACKAGE_JSON="samples/UnidoteUnityDemo/Packages/com.shilo.unidote/package.json"
 
-OLD_AUTHOR_DISPLAY=""
+OLD_AUTHOR_PASCAL=""
 if [[ -f "$SAMPLE_PACKAGE_JSON" ]]; then
     # Object form: "author": { "name": "..." }
-    OLD_AUTHOR_DISPLAY=$(grep -A2 '"author"' "$SAMPLE_PACKAGE_JSON" \
+    OLD_AUTHOR_PASCAL=$(grep -A2 '"author"' "$SAMPLE_PACKAGE_JSON" \
         | grep -m1 '"name"' \
         | sed -E 's/.*"name"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')
     # String form: "author": "..."
-    if [[ -z "$OLD_AUTHOR_DISPLAY" ]]; then
-        OLD_AUTHOR_DISPLAY=$(grep -m1 -E '"author"[[:space:]]*:[[:space:]]*"' "$SAMPLE_PACKAGE_JSON" \
+    if [[ -z "$OLD_AUTHOR_PASCAL" ]]; then
+        OLD_AUTHOR_PASCAL=$(grep -m1 -E '"author"[[:space:]]*:[[:space:]]*"' "$SAMPLE_PACKAGE_JSON" \
             | sed -E 's/.*"author"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')
     fi
 fi
-if [[ -z "$OLD_AUTHOR_DISPLAY" ]]; then
-    OLD_AUTHOR_DISPLAY="$AUTHOR_FALLBACK"
+if [[ -z "$OLD_AUTHOR_PASCAL" ]]; then
+    OLD_AUTHOR_PASCAL="$AUTHOR_FALLBACK"
 fi
-OLD_AUTHOR_KEBAB=$(echo "$OLD_AUTHOR_DISPLAY" \
-    | sed 's/\([a-z0-9]\)\([A-Z]\)/\1-\2/g' \
-    | tr '[:upper:]' '[:lower:]' \
-    | tr -s ' ' '-')
+OLD_AUTHOR_PASCAL=$(pascal_case "$OLD_AUTHOR_PASCAL")
+OLD_AUTHOR_KEBAB=$(kebab_case "$OLD_AUTHOR_PASCAL")
 
 echo -e "\nRebranding Workspace"
 echo "Current Project: $OLD_PROJECT_PASCAL"
-echo "Current Author:  $OLD_AUTHOR_DISPLAY"
+echo "Current Author:  $OLD_AUTHOR_PASCAL"
 echo "-------------------------------------------"
 
 # --- PROMPT ---
@@ -93,54 +124,22 @@ fi
 
 # --- DERIVE NEW IDENTIFIERS ---
 
-titlecase_words() {
-    # Uppercase first letter of each whitespace-separated word, lowercase the rest.
-    awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))} 1'
-}
-
-# Display-case a raw input.
-# Multi-word input → Title Case. Single-token input → preserved verbatim
-# so the user can pass PascalCase/camelCase ("MyProject", "shiloDev") without
-# being flattened to "Myproject" / "Shilodev".
-display_case() {
-    local raw="$1"
-    if [[ "$raw" == *[[:space:]]* ]]; then
-        echo "$raw" | titlecase_words
-    else
-        echo "$raw"
-    fi
-}
-
-# Kebab-case a raw input.
-# Multi-word input → lowercase + spaces → dashes.
-# Single-token input → insert dash between lowercase/digit and uppercase
-# so "MyProject" becomes "my-project" (camel → kebab).
-kebab_case() {
-    local raw="$1"
-    if [[ "$raw" == *[[:space:]]* ]]; then
-        echo "$raw" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '-'
-    else
-        echo "$raw" | sed 's/\([a-z0-9]\)\([A-Z]\)/\1-\2/g' | tr '[:upper:]' '[:lower:]'
-    fi
-}
-
-# Project: PascalCase (no spaces) + kebab-case.
-NEW_PROJECT_PASCAL=$(display_case "$NEW_PROJECT_RAW" | tr -d ' ')
+# Project: PascalCase + kebab-case.
+NEW_PROJECT_PASCAL=$(pascal_case "$NEW_PROJECT_RAW")
 NEW_PROJECT_KEBAB=$(kebab_case "$NEW_PROJECT_RAW")
 
-# Author: display (title case, spaces preserved) + kebab-case.
-# The display variant keeps spaces so human-readable fields like
-# package.json → author.name and Godot plugin.cfg → author stay intact.
-# The kebab variant powers package IDs (com.<author>.<project>),
-# GitHub slugs, doc URLs, and asmdef prefixes.
-NEW_AUTHOR_DISPLAY=$(display_case "$NEW_AUTHOR_RAW")
+# Author: PascalCase + kebab-case.
+# The PascalCase variant is used for all uppercase/code-style identifiers,
+# while the kebab variant powers package IDs (com.<author>.<project>),
+# GitHub slugs, and doc URLs.
+NEW_AUTHOR_PASCAL=$(pascal_case "$NEW_AUTHOR_RAW")
 NEW_AUTHOR_KEBAB=$(kebab_case "$NEW_AUTHOR_RAW")
 
 echo -e "\nInitializing Rebrand..."
 echo "-------------------------------------------"
 printf "Project Pascal : %-20s -> %s\n" "$OLD_PROJECT_PASCAL" "$NEW_PROJECT_PASCAL"
 printf "Project kebab  : %-20s -> %s\n" "$OLD_PROJECT_KEBAB"  "$NEW_PROJECT_KEBAB"
-printf "Author display : %-20s -> %s\n" "$OLD_AUTHOR_DISPLAY" "$NEW_AUTHOR_DISPLAY"
+printf "Author Pascal  : %-20s -> %s\n" "$OLD_AUTHOR_PASCAL" "$NEW_AUTHOR_PASCAL"
 printf "Author kebab   : %-20s -> %s\n" "$OLD_AUTHOR_KEBAB"   "$NEW_AUTHOR_KEBAB"
 echo "-------------------------------------------"
 echo
@@ -195,13 +194,13 @@ fi
 
 REPLACE_OLD=(
     "$OLD_PROJECT_PASCAL"
-    "$OLD_AUTHOR_DISPLAY"
+    "$OLD_AUTHOR_PASCAL"
     "$OLD_PROJECT_KEBAB"
     "$OLD_AUTHOR_KEBAB"
 )
 REPLACE_NEW=(
     "$NEW_PROJECT_PASCAL"
-    "$NEW_AUTHOR_DISPLAY"
+    "$NEW_AUTHOR_PASCAL"
     "$NEW_PROJECT_KEBAB"
     "$NEW_AUTHOR_KEBAB"
 )
@@ -277,7 +276,7 @@ done < <(find "${EXISTING_TARGETS[@]}" -depth \
     "${PATH_BLACKLIST[@]}" \
     "${BLACKLIST[@]}")
 
-echo -e "\nSuccess! Project rebranded as $NEW_PROJECT_PASCAL by $NEW_AUTHOR_DISPLAY."
+echo -e "\nSuccess! Project rebranded as $NEW_PROJECT_PASCAL by $NEW_AUTHOR_PASCAL."
 echo "-------------------------------------------"
 echo "Lines updated: $CONTENT_CHANGES"
 echo "Files renamed: $RENAME_CHANGES"
