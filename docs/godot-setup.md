@@ -2,6 +2,27 @@
 
 Wire `src/Unidote.Godot` into a Godot **4.6+** (.NET build) project as an addon.
 
+## Install
+
+### Manual copy
+
+1. Copy `src/Unidote.Godot/addons/Unidote/` into the target project's `addons/` folder so the final path is `<project>/addons/Unidote/`.
+2. Open the Godot editor.
+3. Build the C# project once from the editor toolbar.
+4. Enable `Unidote` in `Project -> Project Settings -> Plugins`.
+
+### Release zip
+
+1. Download the Godot addon zip from the repository's <a href="../../../releases">Releases</a> page.
+2. Extract it into the project root so your addon folder is created under `addons/`.
+3. Open the editor.
+4. Build the C# project once.
+5. Enable `Unidote` in `Project -> Project Settings -> Plugins`.
+
+### Vendored repo
+
+If you want to track the addon from source control, vendor the repository and point your project's `addons/Unidote/` at `src/Unidote.Godot/addons/Unidote/`.
+
 ## Anatomy
 
 ```
@@ -35,16 +56,7 @@ Files there are overwritten on every sync. Edit `src/Unidote.Core/` and re-run t
 !!! tip "Iterating inside the Godot editor"
     When developing the addon through the Godot editor (scene edits, `[Tool]` plugin scripts, import settings), edits land in `samples/UnidoteGodotDemo/addons/Unidote/`. Run `scripts/pull-godot-adapter-from-sample.sh` (or `.ps1`) to pull them back into `src/Unidote.Godot/addons/Unidote/` before committing. See [Development Workflow](development-workflow.md).
 
-## Installing the addon into a Godot project
-
-### Manual copy
-
-1. Copy `src/Unidote.Godot/addons/Unidote/` into the target project's `addons/` folder (so the full path becomes `<project>/addons/Unidote/`).
-2. Open the Godot editor — it picks up new addon folders automatically.
-3. Go to **Project → Project Settings → Plugins** and enable **Unidote**.
-4. Build the C# project from the Godot toolbar (**Build → Build Project**).
-
-### Git submodule
+## Git submodule example
 
 Teams that want the addon to stay in sync with upstream can vendor the repo:
 
@@ -67,10 +79,11 @@ script=""
 ```
 
 Bump `version` in lockstep with `package.json` and `Directory.Build.props` when releasing.
+Each GitHub release includes a Godot addon zip on the <a href="../../../releases">Releases</a> page.
 
 ## C# project requirement
 
-The addon is C# only. The host Godot project **must** be a .NET build — a `.csproj` at the project root, not a GDScript-only project. Our sample at `samples/UnidoteGodotDemo/` demonstrates the minimum viable setup:
+The addon is C# only. Your Godot project **must** be a .NET build — a `.csproj` at the project root, not a GDScript-only project. Our sample at `samples/UnidoteGodotDemo/` demonstrates the minimum viable setup:
 
 ```xml title="samples/UnidoteGodotDemo/UnidoteGodotDemo.csproj"
 <Project Sdk="Godot.NET.Sdk/4.6.0">
@@ -86,4 +99,4 @@ The addon is C# only. The host Godot project **must** be a .NET build — a `.cs
 </Project>
 ```
 
-The host csproj compiles the addon's `.cs` files (including the synced `addons/Unidote/Core/*.cs`) alongside game code — no extra build step required.
+That project `.csproj` compiles the addon's `.cs` files (including the synced `addons/Unidote/Core/*.cs`) alongside your game code — no extra build step required.

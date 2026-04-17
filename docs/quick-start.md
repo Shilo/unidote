@@ -5,7 +5,7 @@ Clone → rebrand → add logic → mirror. Under two minutes to a working scaff
 ## Prerequisites
 
 - [.NET SDK 8+](https://dotnet.microsoft.com/download)
-- Either **Unity 6.4+** or **Godot 4.6+** (.NET build) — only required to run the sample hosts
+- Either **Unity 6.4+** or **Godot 4.6+** (.NET build) — only required to run the sample projects
 
 ## 1. Use the template
 
@@ -101,8 +101,15 @@ Re-run any time you add or edit a file in `src/Unidote.Core`.
 - Unity → open `samples/UnidoteUnityDemo/` in Unity 6.4+. The sample carries an embedded copy of `com.shilo.unidote` under `Packages/com.shilo.unidote/`. Re-run `scripts/sync-core.*` and `scripts/sync-unity-adapter.*` after source changes so the sample stays current.
 - Godot → open `samples/UnidoteGodotDemo/project.godot` in Godot 4.6+ (.NET). The csproj references `src/Unidote.Core` directly.
 
+## Install into your own project
+
+- Unity: add `https://github.com/shilo/unidote.git?path=/src/Unidote.Unity` through `Window -> Package Manager -> Add package from git URL`, put the same URL in `Packages/manifest.json`, or download the Unity package zip from <a href="../../../releases">Releases</a> and extract it into `Packages/com.shilo.unidote/`.
+- Godot: copy `src/Unidote.Godot/addons/Unidote/` into your project's `addons/Unidote/`, or download the Godot addon zip from <a href="../../../releases">Releases</a> and extract it into the project root, then build the C# project once and enable `Unidote` in `Project -> Project Settings -> Plugins`.
+
+If you are using a forked and rebranded scaffold, replace the repo URL and package/addon names with your own values.
+
 ## Where to go next
 
 - [Development Workflow](development-workflow.md) — how edits flow between `src/` and `samples/` (forward and reverse sync).
-- [Unity Setup](unity-setup.md) — asmdef, UPM layout, distribution.
-- [Godot Setup](godot-setup.md) — plugin.cfg, addon layout, editor registration.
+- [Unity Setup](unity-setup.md) — install methods, asmdef layout, and distribution.
+- [Godot Setup](godot-setup.md) — install methods, addon layout, and editor registration.

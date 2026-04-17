@@ -2,6 +2,47 @@
 
 Wire `src/Unidote.Unity` into a Unity **6.4+** project as a UPM package.
 
+## Install
+
+### Package Manager UI
+
+1. Open `Window -> Package Manager`.
+2. Click `+ -> Add package from git URL...`.
+3. Paste:
+
+```text
+https://github.com/shilo/unidote.git?path=/src/Unidote.Unity
+```
+
+If you fork and rebrand the scaffold, replace the repo URL with your own.
+
+### `manifest.json`
+
+```jsonc title="Packages/manifest.json"
+{
+  "dependencies": {
+    "com.shilo.unidote": "https://github.com/shilo/unidote.git?path=/src/Unidote.Unity"
+  }
+}
+```
+
+### Release zip
+
+1. Download the Unity package zip from the repository's <a href="../../../releases">Releases</a> page.
+2. Extract it into your package folder, for example:
+
+```text
+Packages/com.shilo.unidote/
+```
+
+3. Open the project in Unity.
+
+After rebranding, `init.sh` / `init.ps1` renames the package ID, so use your renamed package folder instead.
+
+### Local embedded copy
+
+Copy `src/Unidote.Unity/` into your project's `Packages/com.shilo.unidote/`. After rebranding, use your renamed package ID folder instead.
+
 ## Anatomy
 
 ```
@@ -44,16 +85,6 @@ The sync overwrites `Runtime/Core/*.cs` and preserves any `.meta` sidecars you c
 
 ## Consuming the package
 
-### Git URL (recommended)
-
-```jsonc title="Packages/manifest.json"
-{
-  "dependencies": {
-    "com.shilo.unidote": "https://github.com/<owner>/<fork>.git?path=/src/Unidote.Unity"
-  }
-}
-```
-
 The `?path=/src/Unidote.Unity` suffix tells UPM to resolve the package from that subfolder.
 
 ### Embedded sample package
@@ -74,10 +105,6 @@ Or on Windows PowerShell:
 
 Core changes still flow through `scripts/sync-core.*`.
 
-### Package Manager UI
-
-**Window → Package Manager → + → Add package from git URL…** and paste the URL above.
-
 ## Preparing for distribution
 
 Before cutting a release:
@@ -90,6 +117,8 @@ Downstream consumers pin the tag:
 ```jsonc
 { "com.shilo.unidote": "https://github.com/<owner>/<fork>.git?path=/src/Unidote.Unity#v1.0.0" }
 ```
+
+Each GitHub release includes a Unity package zip on the <a href="../../../releases">Releases</a> page.
 
 ## GUID stability
 

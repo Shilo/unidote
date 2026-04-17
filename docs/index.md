@@ -27,7 +27,14 @@ A framework. There are no ready-made features, no runtime, no utilities. You get
 - A Unity UPM package skeleton (`src/Unidote.Unity`) with `package.json` + `.asmdef`.
 - A Godot 4.6+ addon skeleton (`src/Unidote.Godot`) with `plugin.cfg` + `.csproj`.
 - Sync scripts that mirror Core sources into both engine distributions.
-- Minimal host projects under `samples/` for smoke-testing each engine.
+- Minimal sample projects under `samples/` for smoke-testing each engine.
+
+## Install
+
+- Unity: add `https://github.com/shilo/unidote.git?path=/src/Unidote.Unity` in Unity Package Manager, paste the same URL into `Packages/manifest.json`, or download the Unity package zip from <a href="../../../releases">Releases</a> and extract it into `Packages/com.shilo.unidote/`.
+- Godot: copy `src/Unidote.Godot/addons/Unidote/` into your project's `addons/Unidote/`, or download the Godot addon zip from <a href="../../../releases">Releases</a> and extract it into the project root, then build once and enable the plugin in `Project Settings -> Plugins`.
+
+If you fork and rename the scaffold, replace the repo URL, package ID, and addon name with your rebranded values.
 
 ## Supported runtimes
 
@@ -35,7 +42,7 @@ A framework. There are no ready-made features, no runtime, no utilities. You get
 | ------ | -------------- | ------------- |
 | .NET   | netstandard2.1 | Core target   |
 | Unity  | 6.4+ (6000.4)  | Mono / IL2CPP |
-| Godot  | 4.6+ (.NET)    | net8.0 host   |
+| Godot  | 4.6+ (.NET)    | net8.0 project |
 
 ## Layout at a glance
 
@@ -59,5 +66,5 @@ Edit Core. Run sync. Both engine distributions pick up the change.
 
 1. [Quick Start](quick-start.md) — clone, rebrand, add logic, mirror.
 2. [Development Workflow](development-workflow.md) — forward and reverse sync between `src/` and `samples/` while developing.
-3. [Unity Setup](unity-setup.md) — wire the UPM package into a Unity project.
-4. [Godot Setup](godot-setup.md) — register the addon in a Godot project.
+3. [Unity Setup](unity-setup.md) — install the UPM package into a Unity project.
+4. [Godot Setup](godot-setup.md) — install and enable the addon in a Godot project.
