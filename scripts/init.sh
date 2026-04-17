@@ -63,6 +63,7 @@ echo
 
 WHITELIST=("src" "tests" "samples" "scripts" ".github" "docs" \
            "README.md" "mkdocs.yml" "Directory.Build.props" "research.md" \
+           ".gitignore" \
            "$(basename "$SLN_PATH")")
 
 # Validate targets exist
