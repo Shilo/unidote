@@ -39,10 +39,31 @@ echo "Internal Name (Snake): $snake_name"
 echo "-------------------------------------------"
 echo
 
+# --- PREPARATION ---
+# Ensure we are running from the project root (one level up from /scripts)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$ROOT_DIR"
+
+WHITELIST=("src" "tests" "samples")
+
+# Validate targets exist
+EXISTING_TARGETS=()
+for dir in "${WHITELIST[@]}"; do
+    if [[ -d "$dir" ]]; then
+        EXISTING_TARGETS+=("$dir")
+    fi
+done
+
+if [[ ${#EXISTING_TARGETS[@]} -eq 0 ]]; then
+    echo "Error: No target directories (src/, tests/, samples/) found." >&2
+    exit 1
+fi
+
 script_name=$(basename "$0")
 
-# --- 1. REPLACE CONTENT IN ALL FILES ---
-find . -type f -not -path '*/\.git/*' -not -name "$script_name" -not -name "init.ps1" | while read -r file; do
+# --- 1. REPLACE CONTENT ---
+find "${EXISTING_TARGETS[@]}" -type f -not -path '*/\.git/*' | while read -r file; do
     if grep -qE 'Unidote|unidote' "$file"; then
         tmp_file=$(mktemp)
         sed -e "s/unidote-id/$kebab_id/g" \
@@ -54,8 +75,8 @@ find . -type f -not -path '*/\.git/*' -not -name "$script_name" -not -name "init
 done
 
 # --- 2. RENAME FILES AND FOLDERS ---
-# Use -depth for deepest-first renaming
-find . -depth -not -path '*/\.git/*' -not -name "$script_name" -not -name "init.ps1" | while read -r item; do
+# Use -depth for deepest-first renaming to ensure parents aren't moved before children
+find "${EXISTING_TARGETS[@]}" -depth -not -path '*/\.git/*' | while read -r item; do
     dirname=$(dirname "$item")
     basename=$(basename "$item")
     new_basename="$basename"
