@@ -35,13 +35,13 @@ theme:
   features:
     - navigation.instant
     - navigation.instant.progress
+    - navigation.tabs
     - navigation.sections
     - navigation.indexes
     - navigation.path
     - navigation.top
     - navigation.tracking
     - navigation.footer
-    - header.autohide
     - toc.follow
     - search.suggest
     - search.highlight
@@ -88,10 +88,12 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Quick Start: quick-start.md
-  - Development Workflow: development-workflow.md
-  - Unity Setup: unity-setup.md
-  - Godot Setup: godot-setup.md
+  - Getting Started:
+      - Quick Start: quick-start.md
+      - Development Workflow: development-workflow.md
+  - Engine Setup:
+      - Unity: unity-setup.md
+      - Godot: godot-setup.md
 
 extra:
   social:
