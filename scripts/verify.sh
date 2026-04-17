@@ -12,6 +12,7 @@ cd "$repo_root"
 bash ./scripts/sync-core.sh
 bash ./scripts/sync-godot-adapter.sh
 bash ./scripts/sync-unity-adapter.sh
+bash ./scripts/test-unity-package-integrity.sh
 
 dotnet build ./src/Unidote.Core/Unidote.Core.csproj --configuration Release
 dotnet build ./samples/UnidoteGodotDemo/UnidoteGodotDemo.csproj --configuration Release

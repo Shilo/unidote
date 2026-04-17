@@ -2,7 +2,7 @@
     "name": "Shilo.Unidote.Editor",
     "rootNamespace": "Unidote.Unity.Editor",
     "references": [
-        "Shilo.Unidote"
+        "Shilo.Unidote.Unity"
     ],
     "includePlatforms": [
         "Editor"

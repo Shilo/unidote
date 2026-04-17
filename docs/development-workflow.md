@@ -99,9 +99,8 @@ Forward syncs are idempotent and safe to re-run. Reverse syncs overwrite `src/` 
 Every `.cs` in a `Core/` or `Runtime/Core/` mirror is auto-generated. Four defenses stop accidental edits from escaping the developer's machine:
 
 1. **File header.** Each mirrored `.cs` starts with `// AUTO-GENERATED. DO NOT EDIT. Edit the matching file in the canonical Core source directory instead.` — visible the moment the file opens in an editor.
-2. **Directory marker.** `sync-core.*` writes a `DO_NOT_EDIT.md` into every mirror folder. Appears at the top of the folder in Solution Explorer / VS Code / file manager.
-3. **`.gitignore`.** All four mirror trees are ignored. `git add .` silently skips them, so accidental edits cannot slip into a commit.
-4. **`.gitattributes linguist-generated=true`.** If a mirror file is ever force-added, GitHub collapses it in the PR diff viewer and excludes it from language stats.
-5. **Auto-sync on push.** The `sync-core` GitHub Actions workflow re-runs `scripts/sync-core.sh` on every push to `main` and commits any drift. Manual edits to a mirror that somehow reach `main` are overwritten on the next push.
+2. **`.gitignore`.** All four mirror trees are ignored. `git add .` silently skips them, so accidental edits cannot slip into a commit.
+3. **`.gitattributes linguist-generated=true`.** If a mirror file is ever force-added, GitHub collapses it in the PR diff viewer and excludes it from language stats.
+4. **Auto-sync on push.** The `sync-core` GitHub Actions workflow re-runs `scripts/sync-core.sh` on every push to `main` and commits any drift. Manual edits to a mirror that somehow reach `main` are overwritten on the next push.
 
 The only way to meaningfully change a mirror is to edit `src/Unidote.Core/` and re-sync. Everything else is auto-reverted.

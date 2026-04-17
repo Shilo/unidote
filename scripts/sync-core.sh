@@ -35,16 +35,45 @@ find "$unity_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
 find "$godot_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
 find "$godot_sample_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
 find "$unity_sample_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
+find "$unity_core_dir" "$godot_core_dir" "$godot_sample_core_dir" "$unity_sample_core_dir" -type f -name 'DO_NOT_EDIT.md' -delete 2>/dev/null || true
 
 header=$'// AUTO-GENERATED. DO NOT EDIT. Edit the matching file in the canonical Core source directory instead.\n'
 
-# Dir-level marker visible in file explorers / Solution Explorer. Written on
-# every sync so removing it out-of-band is self-healing.
-readonly_marker=$'# DO NOT EDIT\n\nEvery file in this directory is an auto-generated mirror of the canonical Core source tree.\nIt is overwritten on every run of `scripts/sync-core.*` and by the `sync-core` GitHub Actions workflow on every push to `main`.\n\nTo change Core logic, edit the matching file in the canonical Core source tree and re-run the sync.\nEdits made directly in this folder WILL BE LOST.\n'
+generate_guid() {
+    if command -v uuidgen >/dev/null 2>&1; then
+        uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]'
+        return
+    fi
 
-for marker_dir in "$unity_core_dir" "$godot_core_dir" "$godot_sample_core_dir" "$unity_sample_core_dir"; do
-    printf '%s' "$readonly_marker" > "$marker_dir/DO_NOT_EDIT.md"
-done
+    if [[ -r /proc/sys/kernel/random/uuid ]]; then
+        tr -d '-' </proc/sys/kernel/random/uuid | tr '[:upper:]' '[:lower:]'
+        return
+    fi
+
+    if command -v python3 >/dev/null 2>&1; then
+        python3 - <<'PY'
+import uuid
+print(uuid.uuid4().hex)
+PY
+        return
+    fi
+
+    python - <<'PY'
+import uuid
+print(uuid.uuid4().hex)
+PY
+}
+
+ensure_unity_meta() {
+    local asset_path="$1"
+    local meta_path="${asset_path}.meta"
+
+    if [[ -f "$meta_path" ]]; then
+        return
+    fi
+
+    printf 'fileFormatVersion: 2\nguid: %s\n' "$(generate_guid)" > "$meta_path"
+}
 
 for src in "${sources[@]}"; do
     rel_path="${src#$core_dir/}"
@@ -60,6 +89,18 @@ for src in "${sources[@]}"; do
     cp -f "$dest_u" "$dest_g"
     cp -f "$dest_u" "$dest_gs"
     cp -f "$dest_u" "$dest_us"
+
+    ensure_unity_meta "$dest_u"
+    ensure_unity_meta "$dest_us"
+done
+
+for unity_dir in "$unity_core_dir" "$unity_sample_core_dir"; do
+    while IFS= read -r -d '' meta_path; do
+        asset_path="${meta_path%.meta}"
+        if [[ ! -f "$asset_path" ]]; then
+            rm -f "$meta_path"
+        fi
+    done < <(find "$unity_dir" -type f -name '*.cs.meta' -print0)
 done
 
 # --- UTF-8 regression gate -------------------------------------------------
