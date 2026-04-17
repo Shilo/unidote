@@ -52,19 +52,16 @@ src/Unidote.Unity/
 ├── Runtime/
 │   ├── Unidote.Unity.asmdef     # Runtime adapter assembly definition
 │   └── Core/                    # CI-synced mirror of the canonical Core source tree
-├── Editor/
-│   └── Unidote.Editor.asmdef    # Editor-only assembly
 └── Samples~/                    # Tilde suffix = hidden from default import
 ```
 
 ## Assembly Definitions
 
-The two `.asmdef` files are mandatory:
+The runtime `.asmdef` is mandatory:
 
 - `Runtime/Unidote.Unity.asmdef` — compiles runtime adapter code into a separate DLL. Required for IL2CPP performance and clean dependency isolation.
-- `Editor/Unidote.Editor.asmdef` — editor-only tooling. Scoped to the `Editor` platform so it never ships in a build.
 
-Rename both (name + rootNamespace) when you fork — the `init.sh` script handles that automatically.
+Rename it when you fork — the `init.sh` script handles that automatically.
 
 ## Linking Core into Runtime
 

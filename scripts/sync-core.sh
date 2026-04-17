@@ -35,7 +35,6 @@ find "$unity_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
 find "$godot_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
 find "$godot_sample_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
 find "$unity_sample_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
-find "$unity_core_dir" "$godot_core_dir" "$godot_sample_core_dir" "$unity_sample_core_dir" -type f -name 'DO_NOT_EDIT.md' -delete 2>/dev/null || true
 
 header=$'// AUTO-GENERATED. DO NOT EDIT. Edit the matching file in the canonical Core source directory instead.\n'
 
