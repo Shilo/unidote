@@ -11,10 +11,15 @@ $ErrorActionPreference = 'Stop'
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $bashScript = Join-Path $scriptDir 'sync-core.sh'
 
-if (-not (Get-Command bash -ErrorAction SilentlyContinue)) {
-    Write-Error "Bash is required to run the sync script. Please run via Git Bash, WSL, or ensure bash is in your PATH."
-    exit 1
-}
+try {
+    if (-not (Get-Command bash -ErrorAction SilentlyContinue)) {
+        Write-Error "Bash is required to run the sync script. Please run via Git Bash, WSL, or ensure bash is in your PATH."
+        exit 1
+    }
 
-$bashPath = $bashScript -replace '\\', '/'
-& bash $bashPath
+    $bashPath = $bashScript -replace '\\', '/'
+    & bash $bashPath
+} finally {
+    Write-Host "`nExecution finished. Press Enter to exit..." -ForegroundColor Gray
+    Read-Host
+}
