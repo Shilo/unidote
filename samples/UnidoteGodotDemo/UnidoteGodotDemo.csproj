@@ -1,12 +1,7 @@
-<Project Sdk="Godot.NET.Sdk/4.6.0">
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <EnableDynamicLoading>true</EnableDynamicLoading>
-        <RootNamespace>UnidoteGodotDemo</RootNamespace>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\Unidote.Core\Unidote.Core.csproj" />
-    </ItemGroup>
+<Project Sdk="Godot.NET.Sdk/4.6.2">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net9.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+  </PropertyGroup>
 </Project>
