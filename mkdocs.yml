@@ -1,10 +1,10 @@
 site_name: Unidote
-site_url: https://shilocity.github.io/unidote/
+site_url: https://shilo.github.io/unidote/
 site_description: A minimal engine-agnostic C# scaffold for building cross-engine libraries for Unity and Godot.
 site_author: Shilo
 
-repo_name: Shilocity/unidote
-repo_url: https://github.com/Shilocity/unidote
+repo_name: shilo/unidote
+repo_url: https://github.com/shilo/unidote
 edit_uri: edit/main/docs/
 
 copyright: Copyright &copy; 2026 Shilo — MIT Licensed
@@ -94,7 +94,7 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/Shilocity/unidote
+      link: https://github.com/shilo/unidote
       name: Unidote on GitHub
   generator: false
 

@@ -9,7 +9,7 @@ Clone → rebrand → add logic → mirror. Under two minutes to a working scaff
 
 ## 1. Use the template
 
-Click **Use this template → Create a new repository** on the [GitHub page](https://github.com/Shilocity/unidote), then clone your fork:
+Click **Use this template → Create a new repository** on the [GitHub page](https://github.com/shilo/unidote), then clone your fork:
 
 ```sh
 git clone https://github.com/<owner>/<your-fork>.git
@@ -35,7 +35,7 @@ Run the rename script from the repo root. It reads the current project name from
 Enter your project name (e.g. `My Library`). The script produces `MyLibrary` (PascalCase), `my_library` (snake_case), and `my-library` (kebab-case).
 
 !!! note "Unidote is a reserved placeholder"
-    Do **not** rename `Unidote` by hand — that string is the anchor the rename script keys off. Run `init.sh` / `init.ps1` instead.
+Do **not** rename `Unidote` by hand — that string is the anchor the rename script keys off. Run `init.sh` / `init.ps1` instead.
 
 ## 3. Add Core logic
 

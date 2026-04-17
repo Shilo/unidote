@@ -11,7 +11,7 @@ A minimal, bare-bones C# scaffold for building **engine-agnostic** libraries tha
 [Quick Start :material-rocket-launch:](quick-start.md){ .md-button .md-button--primary }
 [Unity Setup :material-unity:](unity-setup.md){ .md-button }
 [Godot Setup :material-robot:](godot-setup.md){ .md-button }
-[Source :fontawesome-brands-github:](https://github.com/Shilocity/unidote){ .md-button }
+[Source :fontawesome-brands-github:](https://github.com/shilo/unidote){ .md-button }
 
 ---
 
@@ -31,11 +31,11 @@ A framework. There are no ready-made features, no runtime, no utilities. You get
 
 ## Supported runtimes
 
-| Target | Version        | Notes                     |
-| ------ | -------------- | ------------------------- |
-| .NET   | netstandard2.1 | Core target               |
-| Unity  | 6.4+ (6000.4)  | Mono / IL2CPP             |
-| Godot  | 4.6+ (.NET)    | net8.0 host               |
+| Target | Version        | Notes         |
+| ------ | -------------- | ------------- |
+| .NET   | netstandard2.1 | Core target   |
+| Unity  | 6.4+ (6000.4)  | Mono / IL2CPP |
+| Godot  | 4.6+ (.NET)    | net8.0 host   |
 
 ## Layout at a glance
 

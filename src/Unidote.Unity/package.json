@@ -15,12 +15,12 @@
   "author": {
     "name": "Shilo"
   },
-  "documentationUrl": "https://shilocity.github.io/unidote/",
-  "changelogUrl": "https://shilocity.github.io/unidote/changelog/",
-  "licensesUrl": "https://shilocity.github.io/unidote/license/",
+  "documentationUrl": "https://shilo.github.io/unidote/",
+  "changelogUrl": "https://shilo.github.io/unidote/changelog/",
+  "licensesUrl": "https://shilo.github.io/unidote/license/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Shilocity/unidote.git",
+    "url": "https://github.com/shilo/unidote.git",
     "directory": "src/Unidote.Unity"
   },
   "samples": [

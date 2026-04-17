@@ -6,17 +6,17 @@
 
 ## Layout
 
-| Path                        | Role                                                                    |
-| --------------------------- | ----------------------------------------------------------------------- |
-| `src/Unidote.Core/`         | `netstandard2.1` class library — zero engine dependencies.              |
-| `src/Unidote.Unity/`        | UPM-compliant package (`package.json`, `.asmdef`, `Runtime/`, `Editor/`). |
-| `src/Unidote.Godot/`        | Godot 4.6+ C# addon (`plugin.cfg`, `.csproj`, `addons/Unidote/`).        |
-| `samples/`                  | Minimal host projects for each engine.                                  |
-| `scripts/`                  | `init.*` rebrand script · `sync-core.*` Core mirror script.             |
-| `docs/`                     | Source for <https://shilocity.github.io/unidote/> (MkDocs Material).    |
-| `Directory.Build.props`     | Shared compiler settings.                                               |
-| `Directory.Packages.props`  | Central Package Management.                                             |
-| `global.json`               | .NET SDK pin.                                                           |
+| Path                       | Role                                                                      |
+| -------------------------- | ------------------------------------------------------------------------- |
+| `src/Unidote.Core/`        | `netstandard2.1` class library — zero engine dependencies.                |
+| `src/Unidote.Unity/`       | UPM-compliant package (`package.json`, `.asmdef`, `Runtime/`, `Editor/`). |
+| `src/Unidote.Godot/`       | Godot 4.6+ C# addon (`plugin.cfg`, `.csproj`, `addons/Unidote/`).         |
+| `samples/`                 | Minimal host projects for each engine.                                    |
+| `scripts/`                 | `init.*` rebrand script · `sync-core.*` Core mirror script.               |
+| `docs/`                    | Source for <https://shilo.github.io/unidote/> (MkDocs Material).          |
+| `Directory.Build.props`    | Shared compiler settings.                                                 |
+| `Directory.Packages.props` | Central Package Management.                                               |
+| `global.json`              | .NET SDK pin.                                                             |
 
 ## Use
 
@@ -38,7 +38,7 @@
 
 5. Open `samples/UnidoteUnityDemo/` in Unity or `samples/UnidoteGodotDemo/` in Godot to smoke-test.
 
-Full walkthrough: <https://shilocity.github.io/unidote/quick-start/>.
+Full walkthrough: <https://shilo.github.io/unidote/quick-start/>.
 
 ## Philosophy
 
