@@ -1,18 +1,18 @@
 <#
 .SYNOPSIS
-    Proxy script that executes sync-core.sh.
+    Proxy script that executes init.sh.
 
 .DESCRIPTION
-    This script forwards execution to the canonical Bash script (sync-core.sh)
+    This script forwards execution to the canonical Bash script (init.sh)
     to avoid maintaining duplicate parallel logic. Requires Git Bash or WSL.
 #>
 $ErrorActionPreference = 'Stop'
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$bashScript = Join-Path $scriptDir 'sync-core.sh'
+$bashScript = Join-Path $scriptDir 'init.sh'
 
 if (-not (Get-Command bash -ErrorAction SilentlyContinue)) {
-    Write-Error "Bash is required to run the sync script. Please run via Git Bash, WSL, or ensure bash is in your PATH."
+    Write-Error "Bash is required to run the init script. Please run via Git Bash, WSL, or ensure bash is in your PATH."
     exit 1
 }
 

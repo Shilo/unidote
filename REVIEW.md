@@ -28,15 +28,7 @@ Audit of the findings surfaced by code reviews. The following are left over issu
 
 ### `README.md` link to `https://shilocity.github.io/unidote/` will 404 until Pages is enabled
 
-**Reasoning:** The link points to the *intended* Pages URL for the canonical repository. After the first green `Deploy Docs` workflow run, the repo owner must enable GitHub Pages in **Settings → Pages → Source: GitHub Actions**. Until then the link 404s — acceptable for a template that assumes the fork will enable Pages on their own org.
-
-### Unity meta GUIDs are hand-crafted hex strings, not real UUIDs
-
-**Reasoning:** The GUIDs must be stable across forks and must never change after the first commit (regeneration breaks any scene/prefab/asmdef referencing the package). Deterministic hand-crafted strings satisfy both requirements and make the repo diffable. The `.meta` files are tracked; real randomness would hurt, not help.
-
-### No binary assets committed for the Godot sample scene
-
-**Reasoning:** `Samples/UnidoteGodotDemo/Main.tscn` ships as a minimal text scene with a single `UnidoteNode` — no textures, no fonts, no audio. Adding binary assets to a scaffold forces forks to delete them. The sample is a sentence of Godot text, not a game.
+**Reasoning:** The link points to the *intended* Pages URL for the canonical repository. After the first green `Deploy Docs` workflow run, the repo owner must enable GitHub Pages in **Settings → Pages → Source: GitHub Actions**. Until then the link 404s — acceptable for a template that assumes the fork will enable Pages on their own shell.
 
 ---
 
@@ -45,3 +37,4 @@ Audit of the findings surfaced by code reviews. The following are left over issu
 - When Core gains non-trivial logic, do we implement CI for testing in a single hardening PR, or incrementally?
 - Is a `release-please`-style changelog-automation worth the complexity for a 0.x scaffold? Current answer: no.
 - Should the Godot demo assert an expected log line in CI (via `godot --headless` + a grep on stdout)? Low cost, high leverage — candidate for the first CI workflow.
+
