@@ -11,9 +11,31 @@
 # Case-sensitive substitutions ensure the PascalCase sweep does
 # not eat lowercase tokens before the snake/kebab sweeps run.
 
-set -euo pipefail
+# --- PREPARATION ---
+# Ensure we are running from the project root (one level up from /scripts)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$ROOT_DIR"
 
-read -p "Enter Project Name (e.g., My Super Project): " raw_input
+# 1. Identify current project from the .sln file
+SLN_PATH=$(find . -maxdepth 1 -name "*.sln" | head -n 1)
+if [[ -z "$SLN_PATH" ]]; then
+    echo "Error: No .sln file found in root. Cannot determine current project name." >&2
+    exit 1
+fi
+
+OLD_PASCAL=$(basename "$SLN_PATH" .sln)
+# Derive snake_case and kebab-case from Pascal (assuming PascalCase input)
+OLD_SNAKE=$(echo "$OLD_PASCAL" | sed 's/\([a-z0-9]\)\([A-Z]\)/\1_\2/g' | tr '[:upper:]' '[:lower:]')
+OLD_KEBAB=$(echo "$OLD_PASCAL" | sed 's/\([a-z0-9]\)\([A-Z]\)/\1-\2/g' | tr '[:upper:]' '[:lower:]')
+# Handle the "id" suffix used in placeholders like "unidote-id"
+OLD_ID_PLACEHOLDER="${OLD_KEBAB}-id"
+
+echo -e "\nRebranding Workspace"
+echo "Current Identity: $OLD_PASCAL"
+echo "-------------------------------------------"
+
+read -p "New Project Name (e.g., My Project): " raw_input
 # Trim whitespace
 trimmed=$(echo "$raw_input" | xargs)
 
@@ -22,41 +44,35 @@ if [[ -z "$trimmed" ]]; then
     exit 1
 fi
 
-# Generate PascalCase: "MySuperProject"
+# Generate PascalCase: "MyProject"
 pascal_name=$(echo "$trimmed" | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))} 1' | tr -d ' ')
 
-# snake_case: "my_super_project"
+# snake_case: "my_project"
 snake_name=$(echo "$trimmed" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '_')
 
-# kebab-case: "my-super-project"
+# kebab-case: "my-project"
 kebab_id=$(echo "$trimmed" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '-')
 
-echo -e "\nInitializing Unidote Scaffold..."
+echo -e "\nInitializing Rebrand..."
 echo "-------------------------------------------"
-echo "Project Name (Pascal): $pascal_name"
-echo "Project ID (Kebab):    $kebab_id"
-echo "Internal Name (Snake): $snake_name"
+echo "New Name (Pascal): $pascal_name"
+echo "New ID (Kebab):    $kebab_id"
+echo "New Name (Snake):  $snake_name"
 echo "-------------------------------------------"
 echo
 
-# --- PREPARATION ---
-# Ensure we are running from the project root (one level up from /scripts)
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-cd "$ROOT_DIR"
-
-WHITELIST=("src" "tests" "samples")
+WHITELIST=("src" "tests" "samples" "$(basename "$SLN_PATH")")
 
 # Validate targets exist
 EXISTING_TARGETS=()
-for dir in "${WHITELIST[@]}"; do
-    if [[ -d "$dir" ]]; then
-        EXISTING_TARGETS+=("$dir")
+for item in "${WHITELIST[@]}"; do
+    if [[ -e "$item" ]]; then
+        EXISTING_TARGETS+=("$item")
     fi
 done
 
 if [[ ${#EXISTING_TARGETS[@]} -eq 0 ]]; then
-    echo "Error: No target directories (src/, tests/, samples/) found." >&2
+    echo "Error: No target directories (src/, tests/, samples/) or .sln found." >&2
     exit 1
 fi
 
@@ -65,12 +81,15 @@ script_name=$(basename "$0")
 # --- 1. REPLACE CONTENT ---
 echo "Updating file contents..."
 find "${EXISTING_TARGETS[@]}" -type f -not -path '*/\.git/*' | while read -r file; do
-    if grep -qE 'Unidote|unidote' "$file"; then
+    if grep -qEi "${OLD_PASCAL}|${OLD_SNAKE}" "$file"; then
         echo "  [Content] $file"
         tmp_file=$(mktemp)
-        sed -e "s/unidote-id/$kebab_id/g" \
-            -e "s/Unidote/$pascal_name/g" \
-            -e "s/unidote/$snake_name/g" "$file" > "$tmp_file"
+        
+        # Order matters: replace specific "id" placeholder first, then general names
+        sed -e "s/${OLD_ID_PLACEHOLDER}/${kebab_id}/g" \
+            -e "s/${OLD_PASCAL}/${pascal_name}/g" \
+            -e "s/${OLD_SNAKE}/${snake_name}/g" \
+            -e "s/${OLD_KEBAB}/${kebab_id}/g" "$file" > "$tmp_file"
         
         # Show individual line changes (industry-standard Bold Red/Green)
         # We use -U0 to show exactly the changed lines without surrounding context
@@ -93,18 +112,21 @@ find "${EXISTING_TARGETS[@]}" -depth -not -path '*/\.git/*' | while read -r item
     basename=$(basename "$item")
     new_basename="$basename"
     
-    if echo "$new_basename" | grep -q 'unidote-id'; then
-        new_basename=$(echo "$new_basename" | sed "s/unidote-id/$kebab_id/g")
+    if echo "$new_basename" | grep -qi "${OLD_ID_PLACEHOLDER}"; then
+        new_basename=$(echo "$new_basename" | sed "s/${OLD_ID_PLACEHOLDER}/${kebab_id}/g")
     fi
-    if echo "$new_basename" | grep -q 'Unidote'; then
-        new_basename=$(echo "$new_basename" | sed "s/Unidote/$pascal_name/g")
+    if echo "$new_basename" | grep -qi "${OLD_PASCAL}"; then
+        new_basename=$(echo "$new_basename" | sed "s/${OLD_PASCAL}/${pascal_name}/g")
     fi
-    if echo "$new_basename" | grep -q 'unidote'; then
-        new_basename=$(echo "$new_basename" | sed "s/unidote/$snake_name/g")
+    if echo "$new_basename" | grep -qi "${OLD_SNAKE}"; then
+        new_basename=$(echo "$new_basename" | sed "s/${OLD_SNAKE}/${snake_name}/g")
+    fi
+    if echo "$new_basename" | grep -qi "${OLD_KEBAB}"; then
+        new_basename=$(echo "$new_basename" | sed "s/${OLD_KEBAB}/${kebab_id}/g")
     fi
     
     if [[ "$basename" != "$new_basename" ]]; then
-        echo "  [Renamed] $item -> $new_basename"
+        echo -e "  \033[1;32m[Renamed] $item -> $new_basename\033[0m"
         mv "$item" "$dirname/$new_basename"
     fi
 done
