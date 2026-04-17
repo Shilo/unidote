@@ -1,0 +1,9 @@
+{
+  "name": "com.shilo.unidote",
+  "version": "0.1.0",
+  "displayName": "Unidote",
+  "unity": "6000.4",
+  "author": {
+    "name": "Shilo"
+  }
+}
