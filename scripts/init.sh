@@ -72,8 +72,13 @@ find "${EXISTING_TARGETS[@]}" -type f -not -path '*/\.git/*' | while read -r fil
             -e "s/Unidote/$pascal_name/g" \
             -e "s/unidote/$snake_name/g" "$file" > "$tmp_file"
         
-        # Show individual line changes (diff-style)
-        diff -u "$file" "$tmp_file" | grep -E '^\-|\+' | grep -vE '^---|^[+]{3}' | sed 's/^/      /' || true
+        # Show individual line changes (industry-standard Bold Red/Green)
+        # We use -U0 to show exactly the changed lines without surrounding context
+        diff -U0 "$file" "$tmp_file" | grep -E '^\-|\+' | grep -vE '^---|^[+]{3}' | \
+            sed -e "s/^-/$(printf '\033[1;31m-')/" \
+                -e "s/^+/$(printf '\033[1;32m+')/" \
+                -e "s/$/$(printf '\033[0m')/" \
+                -e "s/^/      /" || true
         
         cat "$tmp_file" > "$file"
         rm "$tmp_file"
