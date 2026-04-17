@@ -14,7 +14,8 @@
 #>
 param(
     [Parameter(Mandatory = $true)]
-    [string]$Script
+    [string]$Script,
+    [switch]$NoPause
 )
 
 $ErrorActionPreference = 'Stop'
@@ -40,6 +41,8 @@ try {
         Pop-Location
     }
 } finally {
-    Write-Host "`nExecution finished. Press Enter to exit..." -ForegroundColor Gray
-    Read-Host
+    if (-not $NoPause) {
+        Write-Host "`nExecution finished. Press Enter to exit..." -ForegroundColor Gray
+        Read-Host
+    }
 }

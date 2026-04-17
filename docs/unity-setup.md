@@ -31,7 +31,7 @@ The Unity package ships Core sources inside `Runtime/Core/` so UPM consumers get
 
 ```sh
 scripts/sync-core.sh          # macOS / Linux / Git Bash
-scripts/sync-core.ps1         # Windows PowerShell
+.\scripts\sync-core.ps1 -NoPause   # Windows PowerShell
 ```
 
 The sync overwrites `Runtime/Core/*.cs` and preserves any `.meta` sidecars you commit.
@@ -56,19 +56,23 @@ The sync overwrites `Runtime/Core/*.cs` and preserves any `.meta` sidecars you c
 
 The `?path=/src/Unidote.Unity` suffix tells UPM to resolve the package from that subfolder.
 
-### Local `file:` path
+### Embedded sample package
 
-Useful while developing the scaffold itself — `samples/UnidoteUnityDemo/Packages/manifest.json` uses this pattern:
+The scaffold sample project keeps an embedded copy of the package at `samples/UnidoteUnityDemo/Packages/com.shilo.unidote/`.
 
-```jsonc
-{
-  "dependencies": {
-    "com.shilo.unidote": "file:../../../src/Unidote.Unity"
-  }
-}
+When you change `src/Unidote.Unity/`, push those changes into the sample with:
+
+```sh
+scripts/sync-unity-adapter.sh
 ```
 
-Edits to the adapter show up in the Unity project on the next domain reload.
+Or on Windows PowerShell:
+
+```powershell
+.\scripts\sync-unity-adapter.ps1 -NoPause
+```
+
+Core changes still flow through `scripts/sync-core.*`.
 
 ### Package Manager UI
 

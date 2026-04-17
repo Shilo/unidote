@@ -24,17 +24,17 @@
 2. **Rebrand** the scaffold:
 
    ```sh
-   bash scripts/init.sh            # macOS / Linux / Git Bash
-   .\scripts\init.ps1              # Windows PowerShell
-   ```
+    bash scripts/init.sh            # macOS / Linux / Git Bash
+    .\scripts\init.ps1 -NoPause     # Windows PowerShell (requires bash on PATH)
+    ```
 
 3. **Add logic** to `src/Unidote.Core/*.cs` (now named after your project).
 4. **Mirror Core** into the engine adapters:
 
    ```sh
-   scripts/sync-core.sh            # macOS / Linux / Git Bash
-   scripts/sync-core.ps1           # Windows PowerShell
-   ```
+    scripts/sync-core.sh            # macOS / Linux / Git Bash
+    .\scripts\sync-core.ps1 -NoPause  # Windows PowerShell (requires bash on PATH)
+    ```
 
 5. Open `samples/UnidoteUnityDemo/` in Unity or `samples/UnidoteGodotDemo/` in Godot to smoke-test.
 6. **Iterate.** Edit Core in Visual Studio → forward sync. Edit the adapter inside Unity or Godot → reverse sync with `scripts/sync-unity-adapter-from-sample.*` or `scripts/sync-godot-adapter-from-sample.*` before committing.

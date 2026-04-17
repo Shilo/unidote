@@ -29,7 +29,7 @@ Run the rename script from the repo root. It reads the current project name from
 === "Windows PowerShell"
 
     ```powershell
-    .\scripts\init.ps1
+    .\scripts\init.ps1 -NoPause
     ```
 
 Two prompts, each producing two case variants:
@@ -65,7 +65,7 @@ Rules for Core:
 ## 4. Build the Core
 
 ```sh
-dotnet build Unidote.sln -c Release
+dotnet build src/Unidote.Core/Unidote.Core.csproj -c Release
 ```
 
 This compiles `src/Unidote.Core/Unidote.Core.csproj` into `bin/Release/netstandard2.1/Unidote.Core.dll`.
@@ -83,8 +83,10 @@ The Unity and Godot adapter folders pick up Core sources via the sync script.
 === "Windows PowerShell"
 
     ```powershell
-    scripts/sync-core.ps1
+    .\scripts\sync-core.ps1 -NoPause
     ```
+
+PowerShell note: the `.ps1` wrappers call the matching Bash scripts, so Git Bash, WSL, or another `bash` on `PATH` is still required.
 
 Output:
 
@@ -96,7 +98,7 @@ Re-run any time you add or edit a file in `src/Unidote.Core`.
 
 ## 6. Smoke-test an engine sample
 
-- Unity → open `samples/UnidoteUnityDemo/` in Unity 6.4+. The manifest resolves `com.shilo.unidote` via a local `file:` path into `src/Unidote.Unity`.
+- Unity → open `samples/UnidoteUnityDemo/` in Unity 6.4+. The sample carries an embedded copy of `com.shilo.unidote` under `Packages/com.shilo.unidote/`. Re-run `scripts/sync-core.*` and `scripts/sync-unity-adapter.*` after source changes so the sample stays current.
 - Godot → open `samples/UnidoteGodotDemo/project.godot` in Godot 4.6+ (.NET). The csproj references `src/Unidote.Core` directly.
 
 ## Where to go next

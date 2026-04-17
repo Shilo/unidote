@@ -1,5 +1,5 @@
 ---
-title: Unidote — engine-agnostic C# scaffold
+title: Unidote - Cure for cross-engine headaches
 hide:
   - navigation
 ---
