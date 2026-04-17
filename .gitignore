@@ -28,6 +28,9 @@ android/
 *.uid
 *.import
 
+# --- AI generated files ---
+.claude/
+
 # --- IDE ---
 .vs/
 .vscode/
