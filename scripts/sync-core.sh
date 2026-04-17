@@ -9,7 +9,7 @@ root_dir="$(cd "$script_dir/.." && pwd)"
 core_dir="$root_dir/src/Unidote.Core"
 unity_core_dir="$root_dir/src/Unidote.Unity/Runtime/Core"
 godot_core_dir="$root_dir/src/Unidote.Godot/addons/Unidote/Core"
-godot_sample_core_dir="$root_dir/Samples/UnidoteGodotDemo/addons/Unidote/Core"
+godot_sample_core_dir="$root_dir/samples/UnidoteGodotDemo/addons/Unidote/Core"
 
 if [[ ! -d "$core_dir" ]]; then
     echo "error: Core directory not found at $core_dir" >&2

@@ -17,8 +17,12 @@ try {
         exit 1
     }
 
-    $bashPath = $bashScript -replace '\\', '/'
-    & bash $bashPath
+    Push-Location $scriptDir
+    try {
+        & bash ./sync-core.sh
+    } finally {
+        Pop-Location
+    }
 } finally {
     Write-Host "`nExecution finished. Press Enter to exit..." -ForegroundColor Gray
     Read-Host
