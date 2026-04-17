@@ -12,19 +12,19 @@ src/Unidote.Unity/Runtime/Core/*
 *.suo
 
 # --- Unity sample generated folders ---
-Samples/UnidoteUnityDemo/[Ll]ibrary/
-Samples/UnidoteUnityDemo/[Tt]emp/
-Samples/UnidoteUnityDemo/[Ll]ogs/
-Samples/UnidoteUnityDemo/[Uu]ser[Ss]ettings/
-Samples/UnidoteUnityDemo/[Bb]uild/
-Samples/UnidoteUnityDemo/Assembly-*.csproj
-Samples/UnidoteUnityDemo/*.csproj
-Samples/UnidoteUnityDemo/*.sln
+samples/UnidoteUnityDemo/[Ll]ibrary/
+samples/UnidoteUnityDemo/[Tt]emp/
+samples/UnidoteUnityDemo/[Ll]ogs/
+samples/UnidoteUnityDemo/[Uu]ser[Ss]ettings/
+samples/UnidoteUnityDemo/[Bb]uild/
+samples/UnidoteUnityDemo/Assembly-*.csproj
+samples/UnidoteUnityDemo/*.csproj
+samples/UnidoteUnityDemo/*.sln
 
 # --- Godot sample generated folders ---
-Samples/UnidoteGodotDemo/.godot/
-Samples/UnidoteGodotDemo/.import/
-Samples/UnidoteGodotDemo/.mono/
+samples/UnidoteGodotDemo/.godot/
+samples/UnidoteGodotDemo/.import/
+samples/UnidoteGodotDemo/.mono/
 
 # --- IDE ---
 .vs/

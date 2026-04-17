@@ -1,6 +1,6 @@
 site_name: Unidote
 site_url: https://shilocity.github.io/unidote/
-site_description: Cure for cross-engine headaches. A minimal C# scaffold with an engine-agnostic core plus Unity and Godot wrappers.
+site_description: A minimal engine-agnostic C# scaffold for building cross-engine libraries for Unity and Godot.
 site_author: Shilo
 
 repo_name: Shilocity/unidote
@@ -20,24 +20,18 @@ theme:
     text: Inter
     code: JetBrains Mono
   palette:
-    - media: "(prefers-color-scheme)"
+    - scheme: slate
+      primary: teal
+      accent: red
       toggle:
-        icon: material/brightness-auto
+        icon: material/weather-night
         name: Switch to light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
+    - scheme: default
       primary: teal
       accent: red
       toggle:
         icon: material/weather-sunny
         name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: teal
-      accent: red
-      toggle:
-        icon: material/weather-night
-        name: Switch to system preference
   features:
     - navigation.instant
     - navigation.instant.progress
@@ -75,11 +69,6 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.keys
-  - pymdownx.snippets:
-      base_path:
-        - .
-        - docs
-      check_paths: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -98,15 +87,9 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Install: install.md
   - Quick Start: quick-start.md
-  - Engines:
-      - Unity: engines/unity.md
-      - Godot: engines/godot.md
-      - .NET: engines/dotnet.md
-  - Architecture: architecture.md
-  - Changelog: changelog.md
-  - License: license.md
+  - Unity Setup: unity-setup.md
+  - Godot Setup: godot-setup.md
 
 extra:
   social:

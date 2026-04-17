@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unidote.Core", "src\Unidote.Core\Unidote.Core.csproj", "{A1B2C3D4-E5F6-4789-A012-3456789ABCDE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnidoteGodotDemo", "Samples\UnidoteGodotDemo\UnidoteGodotDemo.csproj", "{B1C2D3E4-F506-47A8-B9C0-D1E2F3041526}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnidoteGodotDemo", "samples\UnidoteGodotDemo\UnidoteGodotDemo.csproj", "{B1C2D3E4-F506-47A8-B9C0-D1E2F3041526}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

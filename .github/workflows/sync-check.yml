@@ -20,7 +20,7 @@ jobs:
           if ! git diff --exit-code -- \
                 src/Unidote.Unity/Runtime/Core \
                 src/Unidote.Godot/addons/Unidote/Core \
-                Samples/UnidoteGodotDemo/addons/Unidote/Core; then
+                samples/UnidoteGodotDemo/addons/Unidote/Core; then
             echo "::error::Core mirrors are out of sync. Run scripts/sync-core.sh and commit." >&2
             exit 1
           fi
@@ -28,7 +28,7 @@ jobs:
       - name: Assert UTF-8 integrity (no cp1252 mojibake)
         run: |
           if grep -rlF --binary-files=text $'\xc3\xa2\xe2\x82\xac' \
-                 src Samples/UnidoteGodotDemo/addons 2>/dev/null; then
+                 src samples/UnidoteGodotDemo/addons 2>/dev/null; then
             echo "::error::Mojibake detected (cp1252→UTF-8 double-encoding). Re-save source as UTF-8 (no BOM)." >&2
             exit 1
           fi

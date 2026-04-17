@@ -5,5 +5,7 @@
         <RootNamespace>UnidoteGodotDemo</RootNamespace>
     </PropertyGroup>
 
-
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Unidote.Core\Unidote.Core.csproj" />
+    </ItemGroup>
 </Project>

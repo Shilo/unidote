@@ -38,4 +38,4 @@ The `Runtime/Core/` folder is populated from `src/Unidote.Core` via `scripts/syn
 
 If you are developing this template:
 - **Core logic:** Edit files in `src/Unidote.Core` and run `scripts/sync-core.ps1` or `.sh`. Do not edit files in `Runtime/Core/` directly — they are overwritten and carry an auto-generated header.
-- **Unity adapter:** Open `Samples/UnidoteUnityDemo` in Unity. The package is linked locally (`file:../../../src/Unidote.Unity`), so edits made to `UnidoteBehaviour.cs` or other adapter scripts in the IDE modify this folder directly.
+- **Unity adapter:** Open `samples/UnidoteUnityDemo` in Unity. The package is linked locally (`file:../../../src/Unidote.Unity`), so edits made to `UnidoteBehaviour.cs` or other adapter scripts in the IDE modify this folder directly.

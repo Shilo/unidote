@@ -1,12 +1,10 @@
-; Engine configuration file for the Unidote Godot demo.
-; See https://docs.godotengine.org/en/stable/tutorials/editor/project_settings.html
+; Engine configuration file for the Unidote Godot demo host project.
 
 config_version=5
 
 [application]
 
 config/name="Unidote Godot Demo"
-run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 
 [dotnet]

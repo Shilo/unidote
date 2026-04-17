@@ -1,100 +1,62 @@
 ---
-title: Unidote — Cure for cross-engine headaches
+title: Unidote — engine-agnostic C# scaffold
 hide:
   - navigation
 ---
 
 # Unidote
 
-<p class="md-subtitle" markdown>
-  **Cure for cross-engine headaches.** A minimal C# scaffold with an engine-agnostic core plus Unity and Godot wrappers.
-</p>
+A minimal, bare-bones C# scaffold for building **engine-agnostic** libraries that ship to **Unity** and **Godot** from a single Core.
 
-[Install :material-download:](install.md){ .md-button .md-button--primary }
-[Quick start :material-rocket-launch:](quick-start.md){ .md-button }
-[Source on GitHub :fontawesome-brands-github:](https://github.com/Shilocity/unidote){ .md-button }
+[Quick Start :material-rocket-launch:](quick-start.md){ .md-button .md-button--primary }
+[Unity Setup :material-unity:](unity-setup.md){ .md-button }
+[Godot Setup :material-robot:](godot-setup.md){ .md-button }
+[Source :fontawesome-brands-github:](https://github.com/Shilocity/unidote){ .md-button }
 
 ---
 
-## Symptoms this treats
+## What this is
 
-- Copy-pasting the same game logic between Unity and Godot.
-- Engine-specific boilerplate leaking into your gameplay code.
-- "Source of truth" drift between engine ports.
-- Rebuilding UPM packages and Godot addons from scratch for every new library.
+A GitHub template. Clone it, rebrand it with `scripts/init.sh`, add your business logic to `src/Unidote.Core`, and publish to Unity UPM and Godot Asset Library with zero duplicated code.
 
-## Active ingredients
+## What this is not
 
-- **Patient Zero** — a `netstandard2.1` class library with zero engine dependencies.
-- **Unity Adapter** — a UPM package (`package.json` + `Runtime/*.asmdef`) installable via Git URL.
-- **Godot Addon** — a Godot 4.6+ C# plugin, drop-in to any `addons/` folder.
-- **Sync Scripts** — `sync-core.sh` + `sync-core.ps1` mirror the Core into each engine's distribution folder.
-- **Minimal Samples** — a `Hello World` per engine that references `/Core` with zero drift.
+A framework. There are no ready-made features, no runtime, no utilities. You get:
 
-## Supported engines
+- An empty `netstandard2.1` Core project (`src/Unidote.Core`).
+- A Unity UPM package skeleton (`src/Unidote.Unity`) with `package.json` + `.asmdef`.
+- A Godot 4.6+ addon skeleton (`src/Unidote.Godot`) with `plugin.cfg` + `.csproj`.
+- Sync scripts that mirror Core sources into both engine distributions.
+- Minimal host projects under `samples/` for smoke-testing each engine.
 
-| Engine | Minimum Version | Runtime                  |
-| ------ | --------------- | ------------------------ |
-| Unity  | **6.4+** (`6000.4`) | Mono / IL2CPP        |
-| Godot  | **4.6+** (.NET build) | .NET 8 / net8.0    |
-| .NET   | `netstandard2.1` | .NET 6+, Mono, Unity, Godot |
+## Supported runtimes
 
-!!! note "Technically compatible with earlier releases"
-    The Core library targets `netstandard2.1` so it runs on older engine versions, but the scaffold is tested and supported against the versions above.
+| Target | Version        | Notes                     |
+| ------ | -------------- | ------------------------- |
+| .NET   | netstandard2.1 | Core target               |
+| Unity  | 6.4+ (6000.4)  | Mono / IL2CPP             |
+| Godot  | 4.6+ (.NET)    | net8.0 host               |
 
-## When to use Unidote
-
-<div class="grid cards" markdown>
-
--   :material-source-branch:{ .lg .middle } **Cross-engine libraries**
-
-    ---
-
-    Build a reusable library (AI, procgen, save system, input layer) that ships to Unity **and** Godot from a single codebase.
-
--   :material-test-tube:{ .lg .middle } **Engine-agnostic gameplay prototypes**
-
-    ---
-
-    Keep gameplay logic independent of any engine so you can benchmark Unity vs Godot mid-project without a rewrite.
-
--   :material-package-variant:{ .lg .middle } **Asset Store / Asset Library products**
-
-    ---
-
-    Ship the same library to the Unity Asset Store and the Godot Asset Library with matching APIs and a single test suite.
-
--   :material-shield-check:{ .lg .middle } **Vendor-lock insurance**
-
-    ---
-
-    Reduce the blast radius of engine policy changes, pricing shifts, or deprecations by keeping your logic portable.
-
-</div>
-
-## Philosophy in one slide
+## Layout at a glance
 
 ```mermaid
 flowchart LR
-    Core["Core (netstandard2.1)<br/>Patient Zero"]
-    Unity["Unity UPM Package<br/>Runtime + .asmdef"]
-    Godot["Godot Addon<br/>addons/Unidote/"]
+    Core["src/Unidote.Core<br/>(netstandard2.1)"]
+    Unity["src/Unidote.Unity<br/>UPM package"]
+    Godot["src/Unidote.Godot<br/>Godot addon"]
     Sync[/"scripts/sync-core"/]
-    DotNet["Plain .NET Project"]
+    DotNet["Plain .NET consumers"]
 
-    Core -- "sync-core mirror" --> Sync
+    Core --> Sync
     Sync --> Unity
     Sync --> Godot
-    Core -- "direct project reference" --> DotNet
-    Unity -- "Samples~/HelloUnidote" --> DemoU["Unity Demo"]
-    Godot -- "addons/Unidote/" --> DemoG["Godot Demo"]
+    Core --> DotNet
 ```
 
-Edit anything under `/Core`. Run the sync script. Both engine distributions pick up the change. No drift, no duplication.
+Edit Core. Run sync. Both engine distributions pick up the change.
 
-## Next steps
+## Where to go next
 
-1. [Install](install.md) the scaffold into a new or existing repo.
-2. Run the [Quick Start](quick-start.md) to confirm both engine samples print the Unidote greeting.
-3. Drill into the [Unity](engines/unity.md), [Godot](engines/godot.md), or [.NET](engines/dotnet.md) guide for your engine of choice.
-4. Read the [Architecture](architecture.md) page before you rename the namespace and start adding your logic.
+1. [Quick Start](quick-start.md) — clone, rebrand, add logic, mirror.
+2. [Unity Setup](unity-setup.md) — wire the UPM package into a Unity project.
+3. [Godot Setup](godot-setup.md) — register the addon in a Godot project.
