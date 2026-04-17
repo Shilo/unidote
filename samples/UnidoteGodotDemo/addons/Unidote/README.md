@@ -22,6 +22,17 @@ public partial class UnidoteNode : Node
 }
 ```
 
+Or attach a GDScript `Node` and log the same message:
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	print("%s: Hello World" % load("res://addons/Unidote/Core/Unidote.cs").resource_path.get_file().get_basename())
+```
+
+In the installed addon, the mirrored core file lives at `res://addons/Unidote/Core/Unidote.cs`, so the GDScript example loads that script resource and derives `Unidote` from its filename.
+
 Add the node to any scene and run the project.
 
 The `Core/` folder is populated from `src/Unidote.Core` via `scripts/sync-core.(ps1|sh)`.
