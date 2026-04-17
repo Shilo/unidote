@@ -6,7 +6,7 @@ hide:
 
 # Unidote
 
-A minimal, bare-bones C# scaffold for building **engine-agnostic** libraries that ship to **Unity** and **Godot** from a single Core.
+Cure for cross-engine headaches. A minimal engine-agnostic C# scaffold for building cross-engine libraries for Unity and Godot.
 
 [Quick Start :material-rocket-launch:](quick-start.md){ .md-button .md-button--primary }
 [Unity Setup :material-unity:](unity-setup.md){ .md-button }

@@ -1,6 +1,6 @@
 # Unidote
 
-> A minimal, engine-agnostic C# scaffold. Clone, rebrand, and ship libraries to Unity, Godot, and plain .NET from a single Core.
+> Cure for cross-engine headaches. A minimal engine-agnostic C# scaffold for building cross-engine libraries for Unity and Godot.
 
 **Supported engines:** Unity **6.4+** (`6000.4`) · Godot **4.6+** (.NET build).
 

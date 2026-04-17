@@ -1,6 +1,6 @@
 site_name: Unidote
 site_url: https://shilo.github.io/unidote/
-site_description: A minimal engine-agnostic C# scaffold for building cross-engine libraries for Unity and Godot.
+site_description: Cure for cross-engine headaches. A minimal engine-agnostic C# scaffold for building cross-engine libraries for Unity and Godot.
 site_author: Shilo
 
 repo_name: shilo/unidote
