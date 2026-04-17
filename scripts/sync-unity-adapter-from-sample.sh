@@ -32,7 +32,7 @@ find "$dest" -mindepth 1 \
     -not -path "$dest/Runtime" \
     -not -path "$dest/Runtime/Core" \
     -not -path "$dest/Runtime/Core/*" \
-    -not -name '.gitkeep' -delete 2>/dev/null || true
+    -delete 2>/dev/null || true
 cp -R "$staging/package"/. "$dest/"
 
 echo "pulled Unity adapter from samples/UnidoteUnityDemo/Packages/com.shilo.unidote -> src/Unidote.Unity"

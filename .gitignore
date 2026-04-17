@@ -1,9 +1,11 @@
-# --- Unidote Core mirrors (populated by scripts/sync-core; .meta kept for GUID stability) ---
-src/Unidote.Godot/addons/Unidote/Core/*
-!src/Unidote.Godot/addons/Unidote/Core/.gitkeep
+# --- Unidote Core + adapter mirrors (CI manages; Unity .meta kept for stable GUIDs) ---
+src/Unidote.Godot/addons/Unidote/Core/
 src/Unidote.Unity/Runtime/Core/*
-!src/Unidote.Unity/Runtime/Core/.gitkeep
 !src/Unidote.Unity/Runtime/Core/**/*.meta
+
+# --- Sample project mirrors (CI manages wholesale) ---
+samples/UnidoteGodotDemo/addons/Unidote/
+samples/UnidoteUnityDemo/Packages/com.shilo.unidote/
 
 # --- .NET build artifacts ---
 **/bin/

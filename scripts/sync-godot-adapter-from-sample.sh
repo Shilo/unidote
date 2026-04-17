@@ -30,7 +30,7 @@ mkdir -p "$dest"
 find "$dest" -mindepth 1 \
     -not -path "$dest/Core" \
     -not -path "$dest/Core/*" \
-    -not -name '.gitkeep' -delete 2>/dev/null || true
+    -delete 2>/dev/null || true
 cp -R "$staging/addon"/. "$dest/"
 
 echo "pulled Godot adapter from samples/UnidoteGodotDemo/addons/Unidote -> src/Unidote.Godot/addons/Unidote"

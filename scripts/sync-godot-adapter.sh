@@ -46,7 +46,7 @@ strip_godot_uid_fields "$staging/addon"
 # Preserve the existing Core/ dir in dest — only replace non-Core files
 mkdir -p "$dest"
 find "$dest" -mindepth 1 -not -path "$dest/Core" -not -path "$dest/Core/*" \
-    -not -name '.gitkeep' -delete 2>/dev/null || true
+    -delete 2>/dev/null || true
 cp -R "$staging/addon"/. "$dest/"
 
 echo "synced Godot adapter from src/Unidote.Godot/addons/Unidote -> samples/UnidoteGodotDemo/addons/Unidote"

@@ -60,7 +60,6 @@ ln -s ../vendor/unidote/src/Unidote.Godot/addons/Unidote addons/Unidote
 name="Unidote"
 author="Shilo"
 version="0.1.0"
-description=""
 script=""
 ```
 
