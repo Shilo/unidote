@@ -11,6 +11,7 @@ unity_core_dir="$root_dir/src/Unidote.Unity/Runtime/Core"
 godot_core_dir="$root_dir/src/Unidote.Godot/addons/Unidote/Core"
 godot_sample_core_dir="$root_dir/samples/UnidoteGodotDemo/addons/Unidote/Core"
 unity_sample_core_dir="$root_dir/samples/UnidoteUnityDemo/Packages/com.shilo.unidote/Runtime/Core"
+sync_targets="src/Unidote.Unity/Runtime/Core, src/Unidote.Godot/addons/Unidote/Core, samples/UnidoteGodotDemo/addons/Unidote/Core, samples/UnidoteUnityDemo/Packages/com.shilo.unidote/Runtime/Core"
 
 if [[ ! -d "$core_dir" ]]; then
     echo "error: Core directory not found at $core_dir" >&2
@@ -72,4 +73,4 @@ if grep -rlF --binary-files=text "$mojibake_pattern" \
     exit 2
 fi
 
-echo "synced ${#sources[@]} file(s) from src/Unidote.Core -> Unity, Godot, Godot Sample, Unity Sample"
+echo "synced ${#sources[@]} file(s) from src/Unidote.Core -> $sync_targets"
