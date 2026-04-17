@@ -43,14 +43,14 @@ pascal_case() {
 
 # Kebab-case a raw input.
 # Multi-word input → lowercase + spaces → dashes.
-# Single-token input → insert dash between lowercase/digit and uppercase
-# so "MyProject" becomes "my-project" (camel → kebab).
+# Single-token input → lowercase only. We only introduce dashes when the
+# user explicitly typed spaces.
 kebab_case() {
     local raw="$1"
     if [[ "$raw" == *[[:space:]]* ]]; then
         echo "$raw" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '-'
     else
-        echo "$raw" | sed 's/\([a-z0-9]\)\([A-Z]\)/\1-\2/g' | tr '[:upper:]' '[:lower:]'
+        echo "$raw" | tr '[:upper:]' '[:lower:]'
     fi
 }
 

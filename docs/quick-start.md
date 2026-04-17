@@ -34,11 +34,11 @@ Run the rename script from the repo root. It reads the current project name from
 
 Two prompts, each producing two case variants:
 
-- **Project Name** — e.g. `My Library`. Produces `MyLibrary` (PascalCase, spaces removed) for namespaces, assembly names, and folders; `my-library` (kebab-case) for URL slugs, UPM package IDs, and concurrency groups.
-- **Author Name** — e.g. `John Doe`. Produces `John Doe` (display, Title Case, spaces preserved) for human-readable fields like `package.json` → `author.name`, Godot `plugin.cfg` → `author`, and asmdef prefixes (`John Doe.MyLibrary.Unity`); `john-doe` (kebab-case) for lowercase identifiers like UPM IDs (`com.john-doe.my-library`), GitHub slugs, and doc URLs (`john-doe.github.io`).
+- **Project Name** — e.g. `My Project`. Produces `MyProject` (PascalCase, spaces removed) for namespaces, assembly names, and folders; `my-project` (kebab-case) for URL slugs, UPM package IDs, and concurrency groups. Single-token input like `MyProject` becomes `myproject`.
+- **Author Name** — e.g. `John Doe`. Produces `JohnDoe` (PascalCase, spaces removed) for uppercase/code-style references; `john-doe` (kebab-case) for lowercase identifiers like UPM IDs (`com.john-doe.my-project`), GitHub slugs, and doc URLs (`john-doe.github.io`). Single-token input like `JohnDoe` becomes `johndoe`.
 
 !!! tip "Input forms accepted"
-Both prompts accept a Title Case phrase (`My Library`, `John Doe`) **or** a single-token Pascal/camelCase value (`MyLibrary`, `JohnDoe`). Single-token input is preserved verbatim for the display variant and split on case boundaries for the kebab variant — e.g. `JohnDoe` → display `JohnDoe`, kebab `john-doe`. Single-token authors keep asmdef names space-free (`JohnDoe.MyLibrary.Unity`), which some tooling prefers.
+Both prompts accept a Title Case phrase (`My Project`, `John Doe`) **or** a single-token Pascal/camelCase value (`MyProject`, `JohnDoe`). Spaces are removed for PascalCase and converted to `-` for kebab-case. If there are no spaces, the Pascal form is preserved and the kebab form is just lowercased.
 
 !!! note "Unidote / Shilo are reserved placeholders"
 Do **not** rename `Unidote` or `Shilo` by hand — those strings are the anchors the rename script keys off. Run `init.sh` / `init.ps1` instead.
