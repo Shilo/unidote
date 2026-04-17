@@ -16,21 +16,19 @@ Add to `Packages/manifest.json`:
 
 ## Use
 
-Attach `UnidoteBehaviour` to any GameObject, or import the **Hello Unidote** sample from the Package Manager window.
+Create a `MonoBehaviour` in your Unity project that logs a hello from the `Unidote` type:
 
 ```csharp
 using UnityEngine;
 using Unidote;
-using Unidote.Simulation;
 
-public sealed class Example : MonoBehaviour
+public sealed class UnidoteBehaviour : MonoBehaviour
 {
-    private readonly SimulationTicker ticker = new();
-
-    private void Start() => Debug.Log(UnidoteCore.Greet("Unity"));
-    private void Update() => ticker.Tick(Time.deltaTime);
+	private void Awake() => Debug.Log($"{nameof(Unidote)}: Hello World");
 }
 ```
+
+Attach the component to any GameObject and enter Play mode.
 
 The `Runtime/Core/` folder is populated from `src/Unidote.Core` via `scripts/sync-core.(ps1|sh)`.
 
@@ -38,4 +36,4 @@ The `Runtime/Core/` folder is populated from `src/Unidote.Core` via `scripts/syn
 
 If you are developing this template:
 - **Core logic:** Edit files in `src/Unidote.Core` and run `scripts/sync-core.ps1` or `.sh`. Do not edit files in `Runtime/Core/` directly — they are overwritten and carry an auto-generated header.
-- **Unity adapter:** Open `samples/UnidoteUnityDemo` in Unity. The package is linked locally (`file:../../../src/Unidote.Unity`), so edits made to `UnidoteBehaviour.cs` or other adapter scripts in the IDE modify this folder directly.
+- **Unity adapter:** Open `samples/UnidoteUnityDemo` in Unity. The package is linked locally (`file:../../../src/Unidote.Unity`), so any adapter scripts you add under `Runtime/` or `Editor/` are editable in-place.

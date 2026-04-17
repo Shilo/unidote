@@ -42,7 +42,6 @@ Full walkthrough: <https://shilo.github.io/unidote/quick-start/>.
 
 ## Philosophy
 
-- **Ports-and-Adapters.** Interfaces in `src/Unidote.Core/Ports/`, adapters in `src/Unidote.Unity/` and `src/Unidote.Godot/`.
 - **`System.Numerics`** for Core math — adapters pay the conversion tax at the engine boundary.
 - **Zero bloat.** No demo gameplay, no utility classes, no runtime helpers. Just the scaffold.
 - **Warnings are errors.** `Directory.Build.props` enables `TreatWarningsAsErrors` and the latest analyzer set.
