@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "src/Unidote.Godot/addons/Unidote/**"
+      - "!src/Unidote.Godot/addons/Unidote/Core/**"
       - "scripts/sync-godot-adapter.*"
   workflow_dispatch:
 

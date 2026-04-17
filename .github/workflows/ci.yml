@@ -1,0 +1,41 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: unidote-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@main
+        with:
+          version: 4.6.0-stable
+          use-dotnet: true
+          include-templates: false
+
+      - name: Assert no engine bleed in Core
+        run: |
+          if grep -rE '\b(UnityEngine|UnityEditor|Godot|GodotSharp)\b' src/Unidote.Core 2>/dev/null; then
+            echo "::error::Engine-specific type leaked into Unidote.Core. Move to adapter." >&2
+            exit 1
+          fi
+
+      - name: Run forward syncs and build
+        run: bash ./scripts/verify.sh

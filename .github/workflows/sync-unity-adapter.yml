@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "src/Unidote.Unity/**"
+      - "!src/Unidote.Unity/Runtime/Core/**"
       - "scripts/sync-unity-adapter.*"
   workflow_dispatch:
 
