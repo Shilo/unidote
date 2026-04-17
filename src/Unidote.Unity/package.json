@@ -2,30 +2,8 @@
   "name": "com.shilo.unidote",
   "version": "0.1.0",
   "displayName": "Unidote",
-  "description": "Cure for cross-engine headaches. A minimal C# scaffold with an engine-agnostic core plus a Unity adapter. Target: Unity 6.4+ .",
   "unity": "6000.4",
-  "license": "MIT",
-  "keywords": [
-    "template",
-    "scaffold",
-    "cross-engine",
-    "core",
-    "library"
-  ],
   "author": {
     "name": "Shilo"
-  },
-  "documentationUrl": "https://shilo.github.io/unidote/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/shilo/unidote.git",
-    "directory": "src/Unidote.Unity"
-  },
-  "samples": [
-    {
-      "displayName": "Hello Unidote",
-      "description": "Minimal MonoBehaviour calling the engine-agnostic Unidote core.",
-      "path": "Samples~/HelloUnidote"
-    }
-  ]
+  }
 }
