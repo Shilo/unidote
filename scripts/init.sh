@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #
 # init.sh
-# Rebrand the Unidote scaffold for a fresh fork.
+# Rebrand this scaffold for a fresh fork.
 #
-# Prompts for a human-readable project name, derives PascalCase, snake_case,
-# and kebab-case identifiers, then rewrites every text occurrence of
-# "Unidote", "unidote", and "unidote-id" and renames every matching file
-# or folder.
+# Reads the current project identity from the root .sln file, prompts for a
+# new project name, derives PascalCase, snake_case, and kebab-case identifiers,
+# then rewrites every matching text occurrence and renames every matching file
+# or folder across the whitelisted paths.
 #
 # Case-sensitive substitutions ensure the PascalCase sweep does
 # not eat lowercase tokens before the snake/kebab sweeps run.
@@ -28,7 +28,7 @@ OLD_PASCAL=$(basename "$SLN_PATH" .sln)
 # Derive snake_case and kebab-case from Pascal (assuming PascalCase input)
 OLD_SNAKE=$(echo "$OLD_PASCAL" | sed 's/\([a-z0-9]\)\([A-Z]\)/\1_\2/g' | tr '[:upper:]' '[:lower:]')
 OLD_KEBAB=$(echo "$OLD_PASCAL" | sed 's/\([a-z0-9]\)\([A-Z]\)/\1-\2/g' | tr '[:upper:]' '[:lower:]')
-# Handle the "id" suffix used in placeholders like "unidote-id"
+# Handle the "id" suffix used in kebab placeholders like "<project>-id"
 OLD_ID_PLACEHOLDER="${OLD_KEBAB}-id"
 
 echo -e "\nRebranding Workspace"
@@ -61,7 +61,9 @@ echo "New Name (Snake):  $snake_name"
 echo "-------------------------------------------"
 echo
 
-WHITELIST=("src" "tests" "samples" "$(basename "$SLN_PATH")")
+WHITELIST=("src" "tests" "samples" "scripts" ".github" "docs" \
+           "README.md" "mkdocs.yml" "Directory.Build.props" "research.md" \
+           "$(basename "$SLN_PATH")")
 
 # Validate targets exist
 EXISTING_TARGETS=()
@@ -109,7 +111,10 @@ while read -r file; do
         cat "$tmp_file" > "$file"
         rm "$tmp_file"
     fi
-done < <(find "${EXISTING_TARGETS[@]}" -type f -not -path '*/\.git/*')
+done < <(find "${EXISTING_TARGETS[@]}" -type f \
+    -not -path '*/\.git/*' \
+    -not -path '*/bin/*' \
+    -not -path '*/obj/*')
 
 # --- 2. RENAME FILES AND FOLDERS ---
 echo -e "\nRenaming files and folders..."
@@ -137,7 +142,10 @@ while read -r item; do
         echo -e "  \033[1;32m[Renamed] $item -> $new_basename\033[0m"
         mv "$item" "$dirname/$new_basename"
     fi
-done < <(find "${EXISTING_TARGETS[@]}" -depth -not -path '*/\.git/*')
+done < <(find "${EXISTING_TARGETS[@]}" -depth \
+    -not -path '*/\.git/*' \
+    -not -path '*/bin/*' \
+    -not -path '*/obj/*')
 
 echo -e "\nSuccess! Project rebranded as $pascal_name."
 echo "-------------------------------------------"
