@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# sync-core.sh — mirror src/Unidote.Core/**/*.cs into the Unity and Godot
+# sync-core.sh — mirror canonical Core `.cs` files into the Unity and Godot
 # distribution folders. Idempotent, UTF-8-safe, fails fast.
 set -euo pipefail
 
@@ -35,11 +35,11 @@ find "$godot_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
 find "$godot_sample_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
 find "$unity_sample_core_dir" -type f -name '*.cs' -delete 2>/dev/null || true
 
-header=$'// AUTO-GENERATED. DO NOT EDIT. Edit source in src/Unidote.Core instead.\n'
+header=$'// AUTO-GENERATED. DO NOT EDIT. Edit the matching file in the canonical Core source directory instead.\n'
 
 # Dir-level marker visible in file explorers / Solution Explorer. Written on
 # every sync so removing it out-of-band is self-healing.
-readonly_marker=$'# DO NOT EDIT\n\nEvery file in this directory is an auto-generated mirror of `src/Unidote.Core/`.\nIt is overwritten on every run of `scripts/sync-core.*` and by the `sync-core` GitHub Actions workflow on every push to `main`.\n\nTo change Core logic, edit `src/Unidote.Core/**/*.cs` and re-run the sync.\nEdits made directly in this folder WILL BE LOST.\n'
+readonly_marker=$'# DO NOT EDIT\n\nEvery file in this directory is an auto-generated mirror of the canonical Core source tree.\nIt is overwritten on every run of `scripts/sync-core.*` and by the `sync-core` GitHub Actions workflow on every push to `main`.\n\nTo change Core logic, edit the matching file in the canonical Core source tree and re-run the sync.\nEdits made directly in this folder WILL BE LOST.\n'
 
 for marker_dir in "$unity_core_dir" "$godot_core_dir" "$godot_sample_core_dir" "$unity_sample_core_dir"; do
     printf '%s' "$readonly_marker" > "$marker_dir/DO_NOT_EDIT.md"

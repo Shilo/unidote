@@ -9,8 +9,8 @@ src/Unidote.Unity/
 ├── package.json                 # UPM manifest (id, version, Unity min version)
 ├── README.md                    # Shown in the Package Manager pane
 ├── Runtime/
-│   ├── Unidote.Unity.asmdef     # → Shilo.Unidote.dll
-│   └── Core/                    # CI-synced mirror of src/Unidote.Core
+│   ├── Unidote.Unity.asmdef     # Runtime adapter assembly definition
+│   └── Core/                    # CI-synced mirror of the canonical Core source tree
 ├── Editor/
 │   └── Unidote.Editor.asmdef    # Editor-only assembly
 └── Samples~/                    # Tilde suffix = hidden from default import
@@ -20,7 +20,7 @@ src/Unidote.Unity/
 
 The two `.asmdef` files are mandatory:
 
-- `Runtime/Unidote.Unity.asmdef` — compiles runtime adapter code into a separate DLL (`Shilo.Unidote.dll`). Required for IL2CPP performance and clean dependency isolation.
+- `Runtime/Unidote.Unity.asmdef` — compiles runtime adapter code into a separate DLL. Required for IL2CPP performance and clean dependency isolation.
 - `Editor/Unidote.Editor.asmdef` — editor-only tooling. Scoped to the `Editor` platform so it never ships in a build.
 
 Rename both (name + rootNamespace) when you fork — the `init.sh` script handles that automatically.

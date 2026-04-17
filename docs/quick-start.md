@@ -18,7 +18,7 @@ cd <your-fork>
 
 ## 2. Rebrand
 
-Run the rename script from the repo root. It reads the current project name from the `.slnx` (or `.sln`) file (falling back to `Unidote` if no solution file exists) and the current author from `samples/UnidoteUnityDemo/Packages/com.shilo.unidote/package.json` (falling back to `Shilo` if that file is missing), prompts for replacements, then rewrites every matching PascalCase / kebab-case / display occurrence across `src/`, `samples/`, `scripts/`, `.github/`, `docs/`, and the solution file.
+Run the rename script from the repo root. It reads the current project name from the `.slnx` (or `.sln`) file (falling back to `Unidote` if no solution file exists) and the current author from `samples/UnidoteUnityDemo/Packages/com.shilo.unidote/package.json` (falling back to `Shilo` if that file is missing), prompts for replacements, then rewrites every matching PascalCase / kebab-case / display occurrence across `src/`, `samples/`, `scripts/`, `.github/`, `docs/`, the solution file, and root config files such as `.gitignore` and `.gitattributes`.
 
 === "macOS · Linux · Git Bash"
 

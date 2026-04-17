@@ -23,8 +23,8 @@ You opened `src/Unidote.Core/Unidote.cs` in Visual Studio, added a method, and w
 
     ```sh
     scripts/sync-core.sh             # mirror Core .cs → both adapters + both samples
-    scripts/sync-unity-adapter.sh    # optional — mirror src/Unidote.Unity/** (non-Core) → Unity sample
-    scripts/sync-godot-adapter.sh    # optional — mirror src/Unidote.Godot/addons/** (non-Core) → Godot sample
+    scripts/sync-unity-adapter.sh    # optional — mirror non-Core Unity adapter files -> Unity sample
+    scripts/sync-godot-adapter.sh    # optional — mirror non-Core Godot addon files -> Godot sample
     ```
 
 === "Windows PowerShell"
@@ -98,7 +98,7 @@ Forward syncs are idempotent and safe to re-run. Reverse syncs overwrite `src/` 
 
 Every `.cs` in a `Core/` or `Runtime/Core/` mirror is auto-generated. Four defenses stop accidental edits from escaping the developer's machine:
 
-1. **File header.** Each mirrored `.cs` starts with `// AUTO-GENERATED. DO NOT EDIT. Edit source in src/Unidote.Core instead.` — visible the moment the file opens in an editor.
+1. **File header.** Each mirrored `.cs` starts with `// AUTO-GENERATED. DO NOT EDIT. Edit the matching file in the canonical Core source directory instead.` — visible the moment the file opens in an editor.
 2. **Directory marker.** `sync-core.*` writes a `DO_NOT_EDIT.md` into every mirror folder. Appears at the top of the folder in Solution Explorer / VS Code / file manager.
 3. **`.gitignore`.** All four mirror trees are ignored. `git add .` silently skips them, so accidental edits cannot slip into a commit.
 4. **`.gitattributes linguist-generated=true`.** If a mirror file is ever force-added, GitHub collapses it in the PR diff viewer and excludes it from language stats.

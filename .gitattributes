@@ -1,9 +1,9 @@
 * text=auto eol=lf
 
-# --- Auto-generated mirrors of src/Unidote.Core ---
+# --- Auto-generated Core mirrors ---
 # Marks these paths as generated so GitHub collapses them in PR diffs and
-# excludes them from language statistics. Edits belong in src/Unidote.Core
-# only.
+# excludes them from language statistics. Edit the canonical Core source
+# files only.
 src/Unidote.Unity/Runtime/Core/**                    linguist-generated=true
 src/Unidote.Godot/addons/Unidote/Core/**             linguist-generated=true
 samples/UnidoteUnityDemo/Packages/com.shilo.unidote/Runtime/Core/**  linguist-generated=true

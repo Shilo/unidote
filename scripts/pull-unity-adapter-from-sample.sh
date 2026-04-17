@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # pull-unity-adapter-from-sample.sh — reverse flow. Pulls edits made in the
-# Unity sample project's embedded package back into src/Unidote.Unity. Skips
-# the Runtime/Core subtree (owned by sync-core.sh) so Core edits must happen
-# in src/Unidote.Core.
+# Unity sample project's embedded package back into the adapter source tree.
+# Skips the Runtime/Core subtree (owned by sync-core.sh) so Core edits must
+# happen in the canonical Core source tree.
 set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# sync-godot-adapter.sh — mirror src/Unidote.Godot/addons/Unidote/ (non-Core files)
-# into the Godot sample project. Idempotent. Strips Godot UID fields to prevent
-# registry collisions when the addon is copied into downstream projects.
+# sync-godot-adapter.sh — mirror the addon's non-Core files into the Godot
+# sample project. Idempotent. Strips Godot UID fields to prevent registry
+# collisions when the addon is copied into downstream projects.
 set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

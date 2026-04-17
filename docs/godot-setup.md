@@ -8,11 +8,11 @@ Wire `src/Unidote.Godot` into a Godot **4.6+** (.NET build) project as an addon.
 src/Unidote.Godot/
 ├── Unidote.Godot.csproj         # Addon library csproj (Godot.NET.Sdk)
 └── addons/
-    └── Unidote/                 # The folder a consumer copies into their project
+    └── Unidote/                 # Consumer-facing addon folder
         ├── plugin.cfg           # Godot plugin manifest
         ├── UnidotePlugin.cs     # [Tool] EditorPlugin entry point
         ├── README.md
-        └── Core/                # CI-synced mirror of src/Unidote.Core
+        └── Core/                # CI-synced mirror of the canonical Core source tree
 ```
 
 Two anchors matter:
@@ -50,7 +50,7 @@ Teams that want the addon to stay in sync with upstream can vendor the repo:
 
 ```sh
 git submodule add https://github.com/<owner>/<fork>.git vendor/unidote
-# Windows: mklink /D addons\Unidote ..\vendor\unidote\src\Unidote.Godot\addons\Unidote
+# Windows:
 # macOS / Linux:
 ln -s ../vendor/unidote/src/Unidote.Godot/addons/Unidote addons/Unidote
 ```

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # pull-godot-adapter-from-sample.sh — reverse flow. Pulls edits made in the
-# Godot sample project back into src/Unidote.Godot. Skips the Core/ subtree
-# (owned by sync-core.sh) so Core edits must happen in src/Unidote.Core.
+# Godot sample project back into the addon source tree. Skips the Core/
+# subtree (owned by sync-core.sh) so Core edits must happen in the
+# canonical Core source tree.
 set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

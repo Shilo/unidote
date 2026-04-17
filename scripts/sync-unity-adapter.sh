@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# sync-unity-adapter.sh — mirror src/Unidote.Unity/ (non-Core files) into the
+# sync-unity-adapter.sh — mirror the Unity adapter's non-Core files into the
 # Unity sample project as an embedded package. Idempotent. Preserves the
 # Runtime/Core subtree in the destination so sync-core.sh remains the single
 # owner of Core mirrors.

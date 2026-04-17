@@ -1,5 +1,5 @@
 <Project>
-    <!-- Shared compiler settings for every .NET project in the Unidote repository. -->
+    <!-- Shared compiler settings for every .NET project in this repository. -->
     <PropertyGroup>
         <!-- Central version — keep in sync with package.json + plugin.cfg. -->
         <Version>0.1.0</Version>

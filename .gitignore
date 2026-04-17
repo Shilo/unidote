@@ -1,4 +1,4 @@
-# --- Unidote Core + adapter mirrors (CI manages; Unity .meta kept for stable GUIDs) ---
+# --- Core + adapter mirrors (CI manages; Unity .meta kept for stable GUIDs) ---
 src/Unidote.Godot/addons/Unidote/Core/
 src/Unidote.Unity/Runtime/Core/*
 !src/Unidote.Unity/Runtime/Core/**/*.meta

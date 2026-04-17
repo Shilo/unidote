@@ -149,7 +149,7 @@ echo
 
 WHITELIST=("src" "samples" "scripts" ".github" "docs" \
            "README.md" "mkdocs.yml" "Directory.Build.props" "Directory.Packages.props" "research.md" \
-           ".gitignore")
+           ".gitignore" ".gitattributes")
 if [[ -n "$SLN_PATH" ]]; then
     WHITELIST+=("$(basename "$SLN_PATH")")
 fi
@@ -243,6 +243,14 @@ done < <(find "${EXISTING_TARGETS[@]}" -type f \
     -not -path '*/\.git/*' \
     -not -path '*/bin/*' \
     -not -path '*/obj/*' \
+    -not -path '*/.godot/*' \
+    -not -path '*/.import/*' \
+    -not -path '*/.mono/*' \
+    -not -path '*/Library/*' \
+    -not -path '*/Temp/*' \
+    -not -path '*/Logs/*' \
+    -not -path '*/UserSettings/*' \
+    -not -path '*/Build/*' \
     "${BLACKLIST[@]}")
 
 # --- 2. RENAME FILES AND FOLDERS ---
@@ -263,6 +271,14 @@ done < <(find "${EXISTING_TARGETS[@]}" -depth \
     -not -path '*/\.git/*' \
     -not -path '*/bin/*' \
     -not -path '*/obj/*' \
+    -not -path '*/.godot/*' \
+    -not -path '*/.import/*' \
+    -not -path '*/.mono/*' \
+    -not -path '*/Library/*' \
+    -not -path '*/Temp/*' \
+    -not -path '*/Logs/*' \
+    -not -path '*/UserSettings/*' \
+    -not -path '*/Build/*' \
     "${BLACKLIST[@]}")
 
 echo -e "\nSuccess! Project rebranded as $NEW_PROJECT_PASCAL by $NEW_AUTHOR_DISPLAY."
