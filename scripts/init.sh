@@ -154,6 +154,29 @@ if [[ -n "$SLN_PATH" ]]; then
     WHITELIST+=("$(basename "$SLN_PATH")")
 fi
 
+# Self-exclusion: the init scripts themselves carry literal "Unidote" and
+# "Shilo" fallbacks (PROJECT_FALLBACK / AUTHOR_FALLBACK) that must never be
+# rewritten — otherwise re-running init after a rebrand would corrupt the
+# fallback path. The init.ps1 proxy references "init.sh" by name, so skip
+# both.
+BLACKLIST=(-not -name 'init.sh' -not -name 'init.ps1')
+
+# Shared `find` exclusions for VCS state, build outputs, and engine-generated
+# sample project folders we should never rewrite or rename.
+PATH_BLACKLIST=(
+    -not -path '*/\.git/*'
+    -not -path '*/bin/*'
+    -not -path '*/obj/*'
+    -not -path '*/.godot/*'
+    -not -path '*/.import/*'
+    -not -path '*/.mono/*'
+    -not -path '*/Library/*'
+    -not -path '*/Temp/*'
+    -not -path '*/Logs/*'
+    -not -path '*/UserSettings/*'
+    -not -path '*/Build/*'
+)
+
 EXISTING_TARGETS=()
 for item in "${WHITELIST[@]}"; do
     [[ -e "$item" ]] && EXISTING_TARGETS+=("$item")
@@ -211,13 +234,6 @@ RENAME_CHANGES=0
 
 # --- 1. REPLACE CONTENT ---
 
-# Self-exclusion: the init scripts themselves carry literal "Unidote" and
-# "Shilo" fallbacks (PROJECT_FALLBACK / AUTHOR_FALLBACK) that must never be
-# rewritten — otherwise re-running init after a rebrand would corrupt the
-# fallback path. The init.ps1 proxy references "init.sh" by name, so skip
-# both.
-BLACKLIST=(-not -name 'init.sh' -not -name 'init.ps1')
-
 echo "Updating file contents..."
 while read -r file; do
     if grep -qE "$JOINED_OLD" "$file"; then
@@ -240,17 +256,7 @@ while read -r file; do
         rm "$tmp_file"
     fi
 done < <(find "${EXISTING_TARGETS[@]}" -type f \
-    -not -path '*/\.git/*' \
-    -not -path '*/bin/*' \
-    -not -path '*/obj/*' \
-    -not -path '*/.godot/*' \
-    -not -path '*/.import/*' \
-    -not -path '*/.mono/*' \
-    -not -path '*/Library/*' \
-    -not -path '*/Temp/*' \
-    -not -path '*/Logs/*' \
-    -not -path '*/UserSettings/*' \
-    -not -path '*/Build/*' \
+    "${PATH_BLACKLIST[@]}" \
     "${BLACKLIST[@]}")
 
 # --- 2. RENAME FILES AND FOLDERS ---
@@ -268,17 +274,7 @@ while read -r item; do
         mv "$item" "$dirname/$new_basename"
     fi
 done < <(find "${EXISTING_TARGETS[@]}" -depth \
-    -not -path '*/\.git/*' \
-    -not -path '*/bin/*' \
-    -not -path '*/obj/*' \
-    -not -path '*/.godot/*' \
-    -not -path '*/.import/*' \
-    -not -path '*/.mono/*' \
-    -not -path '*/Library/*' \
-    -not -path '*/Temp/*' \
-    -not -path '*/Logs/*' \
-    -not -path '*/UserSettings/*' \
-    -not -path '*/Build/*' \
+    "${PATH_BLACKLIST[@]}" \
     "${BLACKLIST[@]}")
 
 echo -e "\nSuccess! Project rebranded as $NEW_PROJECT_PASCAL by $NEW_AUTHOR_DISPLAY."
