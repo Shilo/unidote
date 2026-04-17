@@ -78,6 +78,9 @@ fi
 
 script_name=$(basename "$0")
 
+CONTENT_CHANGES=0
+RENAME_CHANGES=0
+
 # --- 1. REPLACE CONTENT ---
 echo "Updating file contents..."
 find "${EXISTING_TARGETS[@]}" -type f -not -path '*/\.git/*' | while read -r file; do
@@ -91,11 +94,15 @@ find "${EXISTING_TARGETS[@]}" -type f -not -path '*/\.git/*' | while read -r fil
             -e "s/${OLD_SNAKE}/${snake_name}/g" \
             -e "s/${OLD_KEBAB}/${kebab_id}/g" "$file" > "$tmp_file"
         
+        # Count lines changed (number of removals in diff)
+        changes=$(diff -U0 "$file" "$tmp_file" | grep -c '^-' || true)
+        ((CONTENT_CHANGES += changes))
+
         # Show individual line changes (industry-standard Bold Red/Green)
         # We use -U0 to show exactly the changed lines without surrounding context
         diff -U0 "$file" "$tmp_file" | grep -E '^\-|\+' | grep -vE '^---|^[+]{3}' | \
             sed -e "s/^-/$(printf '\033[1;31m-')/" \
-                -e "s/^+/$(printf '\033[1;32m+')/" \
+                -e "s/^+/$(printf '\033[1;32m')+/" \
                 -e "s/$/$(printf '\033[0m')/" \
                 -e "s/^/      /" || true
         
@@ -126,10 +133,15 @@ find "${EXISTING_TARGETS[@]}" -depth -not -path '*/\.git/*' | while read -r item
     fi
     
     if [[ "$basename" != "$new_basename" ]]; then
+        ((RENAME_CHANGES++))
         echo -e "  \033[1;32m[Renamed] $item -> $new_basename\033[0m"
         mv "$item" "$dirname/$new_basename"
     fi
 done
 
 echo -e "\nSuccess! Project rebranded as $pascal_name."
+echo "-------------------------------------------"
+echo "Lines updated:      $CONTENT_CHANGES"
+echo "Items renamed:      $RENAME_CHANGES"
+echo "-------------------------------------------"
 echo "Note: You can now safely delete 'init.sh' and 'init.ps1'."
