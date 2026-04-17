@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="src/Unidote.Core/Unidote.Core.csproj" />
+  <Project Path="src/Unidote.Godot/Unidote.Godot.csproj" />
+  <Project Path="samples/UnidoteGodotDemo/UnidoteGodotDemo.csproj" />
+</Solution>
