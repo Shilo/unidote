@@ -1,5 +1,3 @@
 namespace Unidote;
 
-public static class Unidote
-{
-}
+public static class Unidote { }
