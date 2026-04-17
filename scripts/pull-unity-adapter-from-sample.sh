@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# sync-unity-adapter-from-sample.sh — reverse flow. Pulls edits made in the
+# pull-unity-adapter-from-sample.sh — reverse flow. Pulls edits made in the
 # Unity sample project's embedded package back into src/Unidote.Unity. Skips
 # the Runtime/Core subtree (owned by sync-core.sh) so Core edits must happen
 # in src/Unidote.Core.

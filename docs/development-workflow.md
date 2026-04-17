@@ -47,8 +47,8 @@ Sometimes it's easier to develop the adapter **inside the engine editor** — ri
 === "Unity"
 
     ```sh
-    scripts/sync-unity-adapter-from-sample.sh    # Bash
-    scripts/sync-unity-adapter-from-sample.ps1   # PowerShell
+    scripts/pull-unity-adapter-from-sample.sh    # Bash
+    scripts/pull-unity-adapter-from-sample.ps1   # PowerShell
     ```
 
     Copies `samples/UnidoteUnityDemo/Packages/com.shilo.unidote/` back into `src/Unidote.Unity/`, skipping `Runtime/Core/`.
@@ -56,8 +56,8 @@ Sometimes it's easier to develop the adapter **inside the engine editor** — ri
 === "Godot"
 
     ```sh
-    scripts/sync-godot-adapter-from-sample.sh    # Bash
-    scripts/sync-godot-adapter-from-sample.ps1   # PowerShell
+    scripts/pull-godot-adapter-from-sample.sh    # Bash
+    scripts/pull-godot-adapter-from-sample.ps1   # PowerShell
     ```
 
     Copies `samples/UnidoteGodotDemo/addons/Unidote/` back into `src/Unidote.Godot/addons/Unidote/`, skipping `Core/`.
@@ -74,7 +74,7 @@ Sometimes it's easier to develop the adapter **inside the engine editor** — ri
 2. **Forward sync**: `scripts/sync-core.sh` — Core now visible to both engines.
 3. **Smoke-test**: open `samples/UnidoteUnityDemo/` in Unity or `samples/UnidoteGodotDemo/` in Godot, wire a MonoBehaviour / Node to the new Core method.
 4. **Iterate in the engine**: if the adapter needs new fields, serialised properties, or editor tooling, edit them inside Unity / Godot.
-5. **Reverse sync** before commit: `scripts/sync-unity-adapter-from-sample.sh` and / or `scripts/sync-godot-adapter-from-sample.sh`.
+5. **Reverse sync** before commit: `scripts/pull-unity-adapter-from-sample.sh` and / or `scripts/pull-godot-adapter-from-sample.sh`.
 6. **Commit**. CI re-runs the forward syncs on push so every mirror stays consistent across the repo.
 
 ## Cheat sheet
@@ -88,8 +88,8 @@ src/Unidote.Core/       ──sync-core──▶  src/Unidote.Unity/Runtime/Core
 src/Unidote.Unity/  ──sync-unity-adapter──▶  samples/UnidoteUnityDemo/Packages/com.shilo.unidote/
 src/Unidote.Godot/  ──sync-godot-adapter──▶  samples/UnidoteGodotDemo/addons/Unidote/
 
-samples/UnidoteUnityDemo/Packages/com.shilo.unidote/  ──sync-unity-adapter-from-sample──▶  src/Unidote.Unity/
-samples/UnidoteGodotDemo/addons/Unidote/              ──sync-godot-adapter-from-sample──▶  src/Unidote.Godot/addons/Unidote/
+samples/UnidoteUnityDemo/Packages/com.shilo.unidote/  ──pull-unity-adapter-from-sample──▶  src/Unidote.Unity/
+samples/UnidoteGodotDemo/addons/Unidote/              ──pull-godot-adapter-from-sample──▶  src/Unidote.Godot/addons/Unidote/
 ```
 
 Forward syncs are idempotent and safe to re-run. Reverse syncs overwrite `src/` with whatever is currently in the sample — review `git diff` before committing.

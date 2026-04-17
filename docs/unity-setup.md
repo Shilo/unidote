@@ -40,7 +40,7 @@ The sync overwrites `Runtime/Core/*.cs` and preserves any `.meta` sidecars you c
     Files there are overwritten on every sync. Edit `src/Unidote.Core/` and re-run the script.
 
 !!! tip "Iterating inside Unity"
-    When developing the adapter through the Unity Editor (Inspector tweaks, new asmdef refs, editor tooling), edits land in `samples/UnidoteUnityDemo/Packages/com.shilo.unidote/`. Run `scripts/sync-unity-adapter-from-sample.sh` (or `.ps1`) to pull them back into `src/Unidote.Unity/` before committing. See [Development Workflow](development-workflow.md).
+    When developing the adapter through the Unity Editor (Inspector tweaks, new asmdef refs, editor tooling), edits land in `samples/UnidoteUnityDemo/Packages/com.shilo.unidote/`. Run `scripts/pull-unity-adapter-from-sample.sh` (or `.ps1`) to pull them back into `src/Unidote.Unity/` before committing. See [Development Workflow](development-workflow.md).
 
 ## Consuming the package
 

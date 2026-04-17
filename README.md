@@ -37,7 +37,7 @@
     ```
 
 5. Open `samples/UnidoteUnityDemo/` in Unity or `samples/UnidoteGodotDemo/` in Godot to smoke-test.
-6. **Iterate.** Edit Core in Visual Studio → forward sync. Edit the adapter inside Unity or Godot → reverse sync with `scripts/sync-unity-adapter-from-sample.*` or `scripts/sync-godot-adapter-from-sample.*` before committing.
+6. **Iterate.** Edit Core in Visual Studio → forward sync. Edit the adapter inside Unity or Godot → reverse sync with `scripts/pull-unity-adapter-from-sample.*` or `scripts/pull-godot-adapter-from-sample.*` before committing.
 
 Full walkthrough: <https://shilo.github.io/unidote/quick-start/>. Sync flow details: <https://shilo.github.io/unidote/development-workflow/>.
 
