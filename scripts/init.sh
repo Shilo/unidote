@@ -63,18 +63,25 @@ fi
 script_name=$(basename "$0")
 
 # --- 1. REPLACE CONTENT ---
+echo "Updating file contents..."
 find "${EXISTING_TARGETS[@]}" -type f -not -path '*/\.git/*' | while read -r file; do
     if grep -qE 'Unidote|unidote' "$file"; then
+        echo "  [Content] $file"
         tmp_file=$(mktemp)
         sed -e "s/unidote-id/$kebab_id/g" \
             -e "s/Unidote/$pascal_name/g" \
             -e "s/unidote/$snake_name/g" "$file" > "$tmp_file"
+        
+        # Show individual line changes (diff-style)
+        diff -u "$file" "$tmp_file" | grep -E '^\-|\+' | grep -vE '^---|^[+]{3}' | sed 's/^/      /' || true
+        
         cat "$tmp_file" > "$file"
         rm "$tmp_file"
     fi
 done
 
 # --- 2. RENAME FILES AND FOLDERS ---
+echo -e "\nRenaming files and folders..."
 # Use -depth for deepest-first renaming to ensure parents aren't moved before children
 find "${EXISTING_TARGETS[@]}" -depth -not -path '*/\.git/*' | while read -r item; do
     dirname=$(dirname "$item")
@@ -92,6 +99,7 @@ find "${EXISTING_TARGETS[@]}" -depth -not -path '*/\.git/*' | while read -r item
     fi
     
     if [[ "$basename" != "$new_basename" ]]; then
+        echo "  [Renamed] $item -> $new_basename"
         mv "$item" "$dirname/$new_basename"
     fi
 done
