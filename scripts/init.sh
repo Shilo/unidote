@@ -54,6 +54,17 @@ kebab_case() {
     fi
 }
 
+detect_sample_package_json() {
+    local project_pascal="$1"
+    local sample_packages_dir="samples/${project_pascal}UnityDemo/Packages"
+
+    if [[ ! -d "$sample_packages_dir" ]]; then
+        return
+    fi
+
+    find "$sample_packages_dir" -mindepth 2 -maxdepth 2 -type f -name 'package.json' | sort | head -n 1
+}
+
 # --- DETECT CURRENT IDENTITY ---
 
 # Current project name comes from the root .slnx (or .sln) basename. If no
@@ -70,15 +81,22 @@ else
 fi
 OLD_PROJECT_KEBAB=$(kebab_case "$OLD_PROJECT_PASCAL")
 
-# Current author comes from the sample Unity package.json → author.name.
-# That file carries the unmodified template author. If missing (e.g. after
-# a previous rebrand removed or renamed the sample) we fall back to the
-# template's original value, "Shilo".
+# Current author and kebab identifiers come from the current sample Unity
+# package.json. That lets reruns keep using the already-rebranded sample
+# path and package ID instead of falling back to template placeholders.
 AUTHOR_FALLBACK="Shilo"
-SAMPLE_PACKAGE_JSON="samples/UnidoteUnityDemo/Packages/com.shilo.unidote/package.json"
+SAMPLE_PACKAGE_JSON=$(detect_sample_package_json "$OLD_PROJECT_PASCAL")
 
 OLD_AUTHOR_PASCAL=""
+OLD_AUTHOR_KEBAB=""
 if [[ -f "$SAMPLE_PACKAGE_JSON" ]]; then
+    PACKAGE_NAME=$(grep -m1 -E '"name"[[:space:]]*:[[:space:]]*"' "$SAMPLE_PACKAGE_JSON" \
+        | sed -E 's/.*"name"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')
+    if [[ "$PACKAGE_NAME" =~ ^com\.([^.]+)\.(.+)$ ]]; then
+        OLD_AUTHOR_KEBAB="${BASH_REMATCH[1]}"
+        OLD_PROJECT_KEBAB="${BASH_REMATCH[2]}"
+    fi
+
     # Object form: "author": { "name": "..." }
     OLD_AUTHOR_PASCAL=$(grep -A2 '"author"' "$SAMPLE_PACKAGE_JSON" \
         | grep -m1 '"name"' \
@@ -93,7 +111,9 @@ if [[ -z "$OLD_AUTHOR_PASCAL" ]]; then
     OLD_AUTHOR_PASCAL="$AUTHOR_FALLBACK"
 fi
 OLD_AUTHOR_PASCAL=$(pascal_case "$OLD_AUTHOR_PASCAL")
-OLD_AUTHOR_KEBAB=$(kebab_case "$OLD_AUTHOR_PASCAL")
+if [[ -z "$OLD_AUTHOR_KEBAB" ]]; then
+    OLD_AUTHOR_KEBAB=$(kebab_case "$OLD_AUTHOR_PASCAL")
+fi
 
 echo -e "\nRebranding Workspace"
 echo "Current Project: $OLD_PROJECT_PASCAL"
