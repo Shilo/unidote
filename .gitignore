@@ -8,26 +8,25 @@ samples/UnidoteGodotDemo/addons/Unidote/
 samples/UnidoteUnityDemo/Packages/com.shilo.unidote/
 
 # --- .NET build artifacts ---
-**/bin/
-**/obj/
+bin/
+obj/
 *.user
 *.suo
 
-# --- Unity sample generated folders ---
-samples/UnidoteUnityDemo/[Ll]ibrary/
-samples/UnidoteUnityDemo/[Tt]emp/
-samples/UnidoteUnityDemo/[Ll]ogs/
-samples/UnidoteUnityDemo/[Uu]ser[Ss]ettings/
-samples/UnidoteUnityDemo/[Bb]uild/
-samples/UnidoteUnityDemo/Assembly-*.csproj
-samples/UnidoteUnityDemo/*.csproj
-samples/UnidoteUnityDemo/*.sln
+# --- Unity generated files ---
+[Ll]ibrary/
+[Tt]emp/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Bb]uild/
 
-# --- Godot sample generated folders ---
-samples/UnidoteGodotDemo/.godot/
-samples/UnidoteGodotDemo/.import/
-samples/UnidoteGodotDemo/.mono/
-samples/UnidoteGodotDemo/android/
+# --- Godot generated files ---
+.godot/
+.import/
+.mono/
+android/
+*.uid
+*.import
 
 # --- IDE ---
 .vs/
