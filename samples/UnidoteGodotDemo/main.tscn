@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c07ltyev8nwcj"]
 
-[ext_resource type="Script" uid="uid://jqim7lcxt8h6" path="res://Main.cs" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://b1p3wcu4e1ar" path="res://Main.cs" id="1_ig7tw"]
 
 [node name="Main" type="Label" unique_id=380236966]
 anchors_preset = 8
