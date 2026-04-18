@@ -1,9 +1,9 @@
 {
   "dependencies": {
     "com.shilo.unidote": {
-      "version": "file:../../src/Unidote.Unity",
+      "version": "file:com.shilo.unidote",
       "depth": 0,
-      "source": "local",
+      "source": "embedded",
       "dependencies": {}
     },
     "com.unity.ugui": {
