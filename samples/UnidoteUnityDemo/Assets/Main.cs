@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Main : MonoBehaviour
 {
-    void Start()
+    private void Start()
     {
-        var text = $"{nameof(Unidote.Unidote)}: Hello World";
+        var text = $"{nameof(Unidote)}: Hello World";
+        this.GetComponent<UnityEngine.UI.Text>().text = text;
         Debug.Log(text);
     }
 }
