@@ -13,9 +13,6 @@ concurrency:
 jobs:
   release:
     runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.version.outputs.VERSION }}
-      tag: ${{ steps.version.outputs.TAG }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -27,6 +24,13 @@ jobs:
           git fetch origin main
           git pull --ff-only origin main
           echo "RELEASE_BASE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@main
+        with:
+          version: 4.6.0-stable
+          use-dotnet: true
+          include-templates: true
 
       - name: Sync Core to engine adapters
         run: bash ./scripts/sync-core.sh
@@ -62,6 +66,31 @@ jobs:
       - name: Verify release-ready state
         run: bash ./scripts/verify.sh
 
+      - name: Export Godot demo for Windows
+        run: |
+          mkdir -p samples/UnidoteGodotDemo/build
+          godot --headless --path samples/UnidoteGodotDemo --export-release "Windows Desktop"
+
+      - name: Zip Godot addon
+        run: |
+          cd src/Unidote.Godot
+          mkdir -p ../../dist/addons
+          cp -r addons/Unidote ../../dist/addons/Unidote
+          cd ../../dist
+          zip -r ../Unidote-Godot-${{ steps.version.outputs.VERSION }}.zip addons/
+          cd ..
+          rm -rf dist
+
+      - name: Zip Unity package
+        run: |
+          cd src/Unidote.Unity
+          zip -r ../../Unidote-Unity-${{ steps.version.outputs.VERSION }}.zip .
+
+      - name: Zip Godot demo build
+        run: |
+          cd samples/UnidoteGodotDemo/build
+          zip -r ../../../UnidoteDemo-Windows-${{ steps.version.outputs.VERSION }}.zip .
+
       - name: Commit fully synced release state
         run: |
           git config user.name "github-actions[bot]"
@@ -92,21 +121,6 @@ jobs:
           git tag "${{ steps.version.outputs.TAG }}" "$RELEASE_SHA"
           git push origin "${{ steps.version.outputs.TAG }}"
 
-      - name: Zip Godot addon
-        run: |
-          cd src/Unidote.Godot
-          mkdir -p ../../dist/addons
-          cp -r addons/Unidote ../../dist/addons/Unidote
-          cd ../../dist
-          zip -r ../Unidote-Godot-${{ steps.version.outputs.VERSION }}.zip addons/
-          cd ..
-          rm -rf dist
-
-      - name: Zip Unity package
-        run: |
-          cd src/Unidote.Unity
-          zip -r ../../Unidote-Unity-${{ steps.version.outputs.VERSION }}.zip .
-
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -115,13 +129,5 @@ jobs:
             --title "Unidote ${{ steps.version.outputs.VERSION }}" \
             --generate-notes \
             Unidote-Godot-${{ steps.version.outputs.VERSION }}.zip \
-            Unidote-Unity-${{ steps.version.outputs.VERSION }}.zip
-
-  build:
-    needs: release
-    uses: ./.github/workflows/build.yml
-    with:
-      version: ${{ needs.release.outputs.version }}
-      tag: ${{ needs.release.outputs.tag }}
-    permissions:
-      contents: write
+            Unidote-Unity-${{ steps.version.outputs.VERSION }}.zip \
+            UnidoteDemo-Windows-${{ steps.version.outputs.VERSION }}.zip
