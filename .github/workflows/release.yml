@@ -104,7 +104,7 @@ jobs:
           git add -f \
             samples/UnidoteGodotDemo/addons/Unidote \
             samples/UnidoteUnityDemo/Packages/com.shilo.unidote
-          git commit -m "chore(release): prepare ${{ steps.version.outputs.VERSION }}"
+          git commit -m "chore(release): ${{ steps.version.outputs.VERSION }}"
 
       - name: Push release commit to main
         run: |
